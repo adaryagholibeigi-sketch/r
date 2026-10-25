@@ -6,15 +6,34 @@ const router = {
         this.handleRoute();
     },
     handleRoute: function() {
+        // دریافت مسیر فعلی
         let path = window.location.pathname;
-        // پشتیبانی از GitHub Pages
-        const basePath = window.location.pathname.includes('/MedEx') ? '/MedEx' : ''; 
-        if (path.startsWith(basePath)) path = path.replace(basePath, '');
-        if (path === '' || path === '/index.html') path = '/';
         
+        // بررسی اگر در گیت‌هاب پیجز زیر پوشه MedEx هستیم
+        const basePath = window.location.pathname.includes('/MedEx') ? '/MedEx' : ''; 
+        
+        // حذف نام ریپازیتوری از مسیر برای تطابق با کلیدهای روتر
+        if (basePath && path.startsWith(basePath)) {
+            path = path.replace(basePath, '');
+        }
+        
+        // اگر مسیر خالی بود یا به index.html ختم می‌شد، آن را به '/' تبدیل کن
+        if (path === '' || path === '/index.html') {
+            path = '/';
+        }
+        
+        // پیدا کردن ویو مناسب
         const view = this.routes[path] || this.routes['/'];
-        document.getElementById('app-container').innerHTML = '';
-        view();
+        const container = document.getElementById('app-container');
+        
+        if (container) {
+            container.innerHTML = ''; // پاک کردن محتوای قبلی
+            view(); // اجرای تابع رندر
+        } else {
+            console.error("app-container not found!");
+        }
     }
 };
+
+// مدیریت دکمه‌های عقب و جلو مرورگر
 window.onpopstate = () => router.handleRoute();
