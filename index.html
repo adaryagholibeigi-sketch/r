@@ -8,8 +8,15 @@
     <link rel="stylesheet" href="./styles/components.css">
 </head>
 <body>
+
+    <!-- صفحه اسپلش (ورود) -->
+    <div id="splash-screen" style="position:fixed; inset:0; background:#164C63; display:flex; justify-content:center; align-items:center; z-index:9999; flex-direction:column;">
+        <img src="./assets/logo.svg" alt="MedEx" style="width:250px; filter: brightness(0) invert(1); animation: fadeIn 1s ease;">
+        <p style="color:white; margin-top:1rem; font-family:Tahoma; opacity:0.8; animation: fadeIn 2s ease;">در حال بارگذاری...</p>
+    </div>
+
     <!-- هدر -->
-    <header class="app-header">
+    <header class="app-header" style="display:none;" id="main-header">
         <div class="logo" onclick="router.navigate('/')">
             <img src="./assets/logo.svg" alt="MedEx Logo">
             <span class="brand-name">MedEx</span>
@@ -20,15 +27,28 @@
     </header>
 
     <!-- محتوای اصلی -->
-    <main id="app-container"></main>
+    <main id="app-container" style="display:none;"></main>
 
     <!-- فوتر -->
-    <footer class="app-footer">
+    <footer class="app-footer" style="display:none;" id="main-footer">
         <p>A. DaryaGholiBeigi</p>
         <p>A. H. Molavifar</p>
     </footer>
 
-    <!-- اسکریپت‌ها -->
+    <script>
+        // مدیریت اسپلش اسکرین
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('main-header').style.display = 'flex';
+                document.getElementById('app-container').style.display = 'block';
+                document.getElementById('main-footer').style.display = 'block';
+                // لود اولیه اپ
+                if(window.router) router.handleRoute();
+            }, 2500); // 2.5 ثانیه انیمیشن
+        });
+    </script>
+
     <script src="./data/rheumatology.js"></script>
     <script src="./scripts/quiz-engine.js"></script>
     <script src="./scripts/router.js"></script>
