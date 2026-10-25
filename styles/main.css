@@ -25,6 +25,8 @@ body {
     flex-direction: column;
 }
 
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
 /* هدر */
 .app-header { 
     background-color: var(--color-primary); 
@@ -33,37 +35,21 @@ body {
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
-    position: sticky; 
-    top: 0; 
-    z-index: 100;
+    position: sticky; top: 0; z-index: 100;
     box-shadow: var(--shadow-sm);
 }
 .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-.logo img { height: 35px; filter: brightness(0) invert(1); } /* سفید کردن لوگو در هدر */
+.logo img { height: 35px; filter: brightness(0) invert(1); }
 .brand-name { font-family: 'Times New Roman', serif; font-size: 1.5rem; font-weight: bold; }
 .nav-btn { background: transparent; border: 1px solid white; color: white; padding: 0.5rem 1rem; border-radius: var(--border-radius); cursor: pointer; transition: 0.3s; font-family: inherit; }
 .nav-btn:hover { background: white; color: var(--color-primary); }
 
-/* محتوا */
-main { flex: 1; padding: 1rem; max-width: 1000px; margin: 0 auto; width: 100%; }
+main { flex: 1; padding: 1rem; max-width: 1000px; margin: 0 auto; width: 100%; animation: fadeIn 0.5s ease; }
+.app-footer { text-align: center; padding: 1rem; font-size: 0.8rem; color: var(--color-text-light); border-top: 1px solid #ddd; margin-top: 2rem; background: var(--color-surface); }
 
-/* فوتر */
-.app-footer { 
-    text-align: center; 
-    padding: 1rem; 
-    font-size: 0.8rem; 
-    color: var(--color-text-light); 
-    border-top: 1px solid #ddd; 
-    margin-top: 2rem;
-    background: var(--color-surface);
-}
-.app-footer p { margin: 0.2rem 0; }
-
-/* موبایل */
 @media (max-width: 600px) {
     .app-header { padding: 0.5rem 1rem; }
     .logo img { height: 28px; }
     .brand-name { font-size: 1.2rem; }
-    .nav-btn { padding: 0.3rem 0.8rem; font-size: 0.9rem; }
     main { padding: 0.5rem; }
 }
