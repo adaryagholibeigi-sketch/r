@@ -42,7 +42,7 @@
     <script src="./scripts/router.js"></script>
     <script src="./scripts/app.js"></script>
 
-    <!-- منطق دکمه ورود (بعد از لود اسکریپت‌ها) -->
+    <!-- منطق دکمه ورود -->
     <script>
         document.getElementById('enter-btn').addEventListener('click', function() {
             const splash = document.getElementById('splash-screen');
@@ -54,8 +54,8 @@
                 document.getElementById('app-container').style.display = 'block';
                 document.getElementById('main-footer').style.display = 'block';
                 
-                // حالا که همه چیز لود شده، روتر را اجرا می‌کنیم
-                router.handleRoute();
+                // *** تغییر کلیدی: هدایت مستقیم به صفحه اصلی ***
+                router.navigate('/');
             }, 500);
         });
     </script>
