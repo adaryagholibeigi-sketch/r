@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedEx | پلتفرم آموزش پزشکی</title>
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/components.css">
+</head>
+<body>
+    <!-- هدر -->
+    <header class="app-header">
+        <div class="logo" onclick="router.navigate('/')">
+            <img src="./assets/logo.svg" alt="MedEx Logo">
+            <span class="brand-name">MedEx</span>
+        </div>
+        <nav>
+            <button onclick="router.navigate('/quiz')" class="nav-btn">آزمون</button>
+        </nav>
+    </header>
+
+    <!-- محتوای اصلی -->
+    <main id="app-container"></main>
+
+    <!-- فوتر -->
+    <footer class="app-footer">
+        <p>A. DaryaGholiBeigi</p>
+        <p>A. H. Molavifar</p>
+    </footer>
+
+    <!-- اسکریپت‌ها -->
+    <script src="./data/rheumatology.js"></script>
+    <script src="./scripts/quiz-engine.js"></script>
+    <script src="./scripts/router.js"></script>
+    <script src="./scripts/app.js"></script>
+</body>
+</html>
