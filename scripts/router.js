@@ -7,7 +7,6 @@ const router = {
     },
     handleRoute: function() {
         let path = window.location.pathname;
-        // پشتیبانی از GitHub Pages (اگر در زیرپوشه باشد)
         const basePath = window.location.pathname.includes('/MedEx') ? '/MedEx' : ''; 
         if (path.startsWith(basePath)) path = path.replace(basePath, '');
         if (path === '' || path === '/index.html') path = '/';
