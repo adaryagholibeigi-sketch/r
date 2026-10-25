@@ -45,7 +45,9 @@ function renderLesson() {
 // نمایش بانک سوالات (تعاملی)
 function renderBank(type) {
     const allQs = rheumatologyData.questions;
+    // فیلتر بر اساس منبع (sample یا custom)
     const filteredQs = allQs.filter(q => q.source === type);
+    
     const title = type === 'sample' ? 'نمونه سوالات امتحانی' : 'سوالات تالیفی';
     
     let html = `
@@ -54,22 +56,26 @@ function renderBank(type) {
         <p style="margin-bottom: 1.5rem; color:var(--color-text-light);">برای مشاهده پاسخ صحیح و توضیحات، روی گزینه‌ها کلیک کنید.</p>
     `;
 
-    filteredQs.forEach((q, index) => {
-        html += `
-            <div class="question-bank-item" id="q-${q.id}">
-                <div class="q-text">${index + 1}. ${q.text}</div>
-                <div class="q-options">
-                    ${q.options.map((opt, i) => `
-                        <div class="q-option" onclick="revealAnswer('${q.id}', ${i}, this)">${opt}</div>
-                    `).join('')}
+    if (filteredQs.length === 0) {
+        html += `<p style="text-align:center; color:red;">هیچ سوالی در این بخش یافت نشد. لطفاً فایل داده را بررسی کنید.</p>`;
+    } else {
+        filteredQs.forEach((q, index) => {
+            html += `
+                <div class="question-bank-item" id="q-${q.id}">
+                    <div class="q-text">${index + 1}. ${q.text}</div>
+                    <div class="q-options">
+                        ${q.options.map((opt, i) => `
+                            <div class="q-option" onclick="revealAnswer('${q.id}', ${i}, this)">${opt}</div>
+                        `).join('')}
+                    </div>
+                    <div class="q-explanation" id="exp-${q.id}">
+                        <strong>پاسخ صحیح: ${q.options[q.correctAnswer]}</strong><br>
+                        <strong>توضیح:</strong> ${q.explanation}
+                    </div>
                 </div>
-                <div class="q-explanation" id="exp-${q.id}">
-                    <strong>پاسخ صحیح: ${q.options[q.correctAnswer]}</strong><br>
-                    <strong>توضیح:</strong> ${q.explanation}
-                </div>
-            </div>
-        `;
-    });
+            `;
+        });
+    }
 
     document.getElementById('app-container').innerHTML = html;
 }
