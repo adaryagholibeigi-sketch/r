@@ -11,9 +11,9 @@
 
     <!-- صفحه اسپلش (ورود) -->
     <div id="splash-screen" style="position:fixed; inset:0; background:#164C63; display:flex; justify-content:center; align-items:center; z-index:9999; flex-direction:column; transition: opacity 0.5s;">
-        <img src="./assets/logo.svg" alt="MedEx" style="width:250px; filter: brightness(0) invert(1); animation: fadeIn 1s ease;">
+        <img src="./assets/logo.svg" alt="MedEx" style="width:250px; filter: brightness(0) invert(1);">
         <p style="color:white; margin-top:1rem; font-family:Tahoma; opacity:0.8;">به پلتفرم MedEx خوش آمدید</p>
-        <button onclick="enterApp()" class="btn btn-primary" style="margin-top: 2rem; background: white; color: #164C63; font-weight: bold; padding: 1rem 2rem; font-size: 1.2rem;">ورود به سایت</button>
+        <button id="enter-btn" class="btn" style="margin-top: 2rem; background: white; color: #164C63; font-weight: bold; padding: 1rem 2rem; font-size: 1.2rem; border-radius: 8px; border:none; cursor:pointer;">ورود به سایت</button>
     </div>
 
     <!-- هدر -->
@@ -36,24 +36,28 @@
         <p>A. H. Molavifar</p>
     </footer>
 
+    <!-- بارگذاری اسکریپت‌ها -->
+    <script src="./data/rheumatology.js"></script>
+    <script src="./scripts/quiz-engine.js"></script>
+    <script src="./scripts/router.js"></script>
+    <script src="./scripts/app.js"></script>
+
+    <!-- منطق دکمه ورود (بعد از لود اسکریپت‌ها) -->
     <script>
-        function enterApp() {
+        document.getElementById('enter-btn').addEventListener('click', function() {
             const splash = document.getElementById('splash-screen');
             splash.style.opacity = '0';
+            
             setTimeout(() => {
                 splash.style.display = 'none';
                 document.getElementById('main-header').style.display = 'flex';
                 document.getElementById('app-container').style.display = 'block';
                 document.getElementById('main-footer').style.display = 'block';
-                // لود اولیه اپ
-                if(window.router) router.handleRoute();
+                
+                // حالا که همه چیز لود شده، روتر را اجرا می‌کنیم
+                router.handleRoute();
             }, 500);
-        }
+        });
     </script>
-
-    <script src="./data/rheumatology.js"></script>
-    <script src="./scripts/quiz-engine.js"></script>
-    <script src="./scripts/router.js"></script>
-    <script src="./scripts/app.js"></script>
 </body>
 </html>
