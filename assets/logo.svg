@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="100%" height="100%">
+  <defs>
+    <style>
+      .logo-text { font-family: 'Times New Roman', serif; font-weight: bold; font-size: 48px; fill: #164C63; }
+      .ecg-line { fill: none; stroke: #164C63; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </defs>
+  <!-- نماد ECG -->
+  <path class="ecg-line" d="M 50 50 L 80 50 L 90 20 L 110 80 L 120 50 L 150 50" />
+  <!-- متن برند -->
+  <text x="160" y="65" class="logo-text">MedEx</text>
+</svg>
