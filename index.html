@@ -3,61 +3,1260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedEx | پلتفرم آموزش پزشکی</title>
-    <link rel="stylesheet" href="./styles/main.css">
-    <link rel="stylesheet" href="./styles/components.css">
+    <title>MedEx | پلتفرم فارماکولوژی</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0B6E99;
+            --primary-light: #E8F4F8;
+            --secondary: #16A085;
+            --bg: #F7F9FB;
+            --text: #2C3E50;
+            --text-light: #7F8C8D;
+            --white: #FFFFFF;
+            --danger: #E74C3C;
+            --warning: #F39C12;
+            --success: #27AE60;
+            --border: #E0E6ED;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1rem; }
+        .text-center { text-align: center; }
+        
+        /* Header */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .back-btn {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .back-btn:hover { background: #d0e8f0; }
+
+        /* Landing Page */
+        .landing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .landing-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .landing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .landing-card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .landing-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .landing-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Common Section Headers */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Filters */
+        .filters-panel {
+            background: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filters-panel label {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text);
+            background: var(--bg);
+            cursor: pointer;
+            outline: none;
+        }
+        .filter-select:focus { border-color: var(--primary); }
+
+        /* Warning */
+        .warning-banner {
+            background: #FFF9E6;
+            color: #B7791F;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #F6E05E;
+        }
+
+        /* Question Cards */
+        .question-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: box-shadow 0.2s;
+        }
+
+        .question-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .badges { display: flex; gap: 10px; }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .badge-category { background: var(--primary-light); color: var(--primary); }
+        .badge-difficulty { background: #FEF9E7; color: var(--warning); }
+        .badge-difficulty.آسان { background: #E8F8F5; color: var(--success); }
+        .badge-difficulty.سخت { background: #FDEDEC; color: var(--danger); }
+
+        .question-text {
+            font-size: 1.05rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        /* Options */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .option-item {
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .option-item:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .option-item.correct {
+            background: #E8F8F5;
+            border-color: var(--success);
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .option-item.wrong {
+            background: #FDEDEC;
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .option-item.disabled {
+            pointer-events: none;
+            opacity: 0.9;
+        }
+
+        .explanation {
+            display: none;
+            background: #EBF8FF;
+            border-right: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            color: #2C5282;
+            font-size: 0.95rem;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mind Map / Accordion */
+        .accordion {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .accordion-header {
+            background: var(--bg);
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+            transition: background 0.3s;
+        }
+
+        .accordion-header:hover { background: var(--primary-light); }
+
+        .accordion-content {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease;
+        }
+
+        .accordion.active .accordion-content {
+            padding: 1.5rem;
+            max-height: 3000px;
+            border-top: 1px solid var(--border);
+        }
+
+        .accordion.active .accordion-header i { transform: rotate(180deg); }
+
+        .mindmap-node {
+            margin-bottom: 1rem;
+            padding-right: 1.5rem;
+            border-right: 2px solid var(--primary-light);
+            position: relative;
+        }
+
+        .mindmap-node::before {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 8px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .mindmap-node h4 { color: var(--primary); margin-bottom: 0.3rem; font-size: 1rem; }
+        .mindmap-node p { color: var(--text); font-size: 0.9rem; }
+
+        .warning-box {
+            background: #FFF5F5;
+            border-right: 4px solid var(--danger);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            margin-top: 0.8rem;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            font-size: 0.9rem;
+            color: #C53030;
+        }
+
+        /* Exam Setup */
+        .exam-setup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .form-group select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: inherit;
+            font-size: 1rem;
+            background: var(--bg);
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover { background: #095a7d; transform: translateY(-2px); }
+        .btn-primary:disabled { background: var(--text-light); cursor: not-allowed; transform: none; }
+
+        /* Exam Area */
+        .exam-area {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .exam-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .exam-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .exam-progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* Results */
+        .results-container {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(var(--success) 0%, var(--border) 0%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            background: var(--white);
+            border-radius: 50%;
+        }
+
+        .score-text {
+            position: relative;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--success);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            .landing-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- صفحه اسپلش (ورود) -->
-    <div id="splash-screen" style="position:fixed; inset:0; background:#164C63; display:flex; justify-content:center; align-items:center; z-index:9999; flex-direction:column; transition: opacity 0.5s;">
-        <img src="./assets/logo.svg" alt="MedEx" style="width:250px; filter: brightness(0) invert(1);">
-        <p style="color:white; margin-top:1rem; font-family:Tahoma; opacity:0.8;">به پلتفرم MedEx خوش آمدید</p>
-        <button id="enter-btn" class="btn" style="margin-top: 2rem; background: white; color: #164C63; font-weight: bold; padding: 1rem 2rem; font-size: 1.2rem; border-radius: 8px; border:none; cursor:pointer;">ورود به سایت</button>
-    </div>
-
-    <!-- هدر -->
-    <header class="app-header" style="display:none;" id="main-header">
-        <div class="logo" onclick="router.navigate('/')">
-            <img src="./assets/logo.svg" alt="MedEx Logo">
-            <span class="brand-name">MedEx</span>
+    <!-- Header -->
+    <header>
+        <div class="logo" onclick="showLanding()">
+            <i class="fa-solid fa-stethoscope"></i> MedEx
         </div>
-        <nav>
-            <button onclick="router.navigate('/quiz')" class="nav-btn">آزمون</button>
-        </nav>
+        <div id="headerActions">
+            <button class="back-btn hidden" id="backBtn" onclick="showLanding()">
+                <i class="fa-solid fa-arrow-right"></i> بازگشت به منو
+            </button>
+        </div>
     </header>
 
-    <!-- محتوای اصلی -->
-    <main id="app-container" style="display:none;"></main>
+    <!-- Main Content -->
+    <main class="container">
+        
+        <!-- ================= LANDING PAGE ================= -->
+        <section id="landing-page">
+            <div class="text-center" style="margin-bottom: 2rem;">
+                <h1 style="color: var(--primary); font-size: 2rem;">فارماکولوژی ۲ — دکتر سپهری</h1>
+                <p style="color: var(--text-light); margin-top: 0.5rem;">مرجع آموزش و آزمون تعاملی</p>
+            </div>
+            <div class="landing-grid">
+                <!-- Card 1: Sample -->
+                <div class="landing-card" onclick="showSection('sample-section')">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <h3>نمونه سوالات میان‌ترم</h3>
+                    <p>بررسی سوالات پرتکرار و تشریحی</p>
+                </div>
+                <!-- Card 2: Summary -->
+                <div class="landing-card" onclick="showSection('summary-section')">
+                    <i class="fa-solid fa-project-diagram"></i>
+                    <h3>خلاصه درس (مایندمپ)</h3>
+                    <p>مرور سریع نکات و تله‌های امتحانی</p>
+                </div>
+                <!-- Card 3: Authored -->
+                <div class="landing-card" onclick="showSection('authored-section')">
+                    <i class="fa-solid fa-pen-nib"></i>
+                    <h3>سوالات تالیفی</h3>
+                    <p>سوالات سطح بالاتر برای تسلط بیشتر</p>
+                </div>
+                <!-- Card 4: Exam -->
+                <div class="landing-card" onclick="showSection('exam-section')">
+                    <i class="fa-solid fa-stopwatch"></i>
+                    <h3>آزمون تعاملی</h3>
+                    <p>محک زدن دانش با تنظیمات دلخواه</p>
+                </div>
+            </div>
+        </section>
 
-    <!-- فوتر -->
-    <footer class="app-footer" style="display:none;" id="main-footer">
-        <p>A. DaryaGholiBeigi</p>
-        <p>A. H. Molavifar</p>
+        <!-- ================= SAMPLE QUESTIONS ================= -->
+        <section id="sample-section" class="hidden">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fa-solid fa-file-lines"></i> نمونه سوالات میان‌ترم</h2>
+            </div>
+            
+            <div class="warning-banner">
+                <i class="fa-solid fa-circle-info"></i>
+                هشدار: اطلاعات وضعیت شما (مانند پاسخ‌های ثبت‌شده) در حافظه مرورگر ذخیره نمی‌شود. در صورت بستن مرورگر، وضعیت از دست خواهد رفت.
+            </div>
+
+            <div class="filters-panel">
+                <label for="sampleCategoryFilter"><i class="fa-solid fa-filter"></i> انتخاب مبحث:</label>
+                <select id="sampleCategoryFilter" class="filter-select" onchange="renderSampleQuestions()">
+                    <option value="all">همه مباحث</option>
+                    <!-- Options filled by JS -->
+                </select>
+            </div>
+
+            <div id="sampleQuestionsContainer"></div>
+        </section>
+
+        <!-- ================= SUMMARY (MIND MAP) ================= -->
+        <section id="summary-section" class="hidden">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fa-solid fa-project-diagram"></i> خلاصه درس (مایندمپ)</h2>
+            </div>
+            <div id="mindmapContainer"></div>
+        </section>
+
+        <!-- ================= AUTHORED QUESTIONS ================= -->
+        <section id="authored-section" class="hidden">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fa-solid fa-pen-nib"></i> سوالات تالیفی</h2>
+            </div>
+
+            <div class="warning-banner">
+                <i class="fa-solid fa-circle-info"></i>
+                هشدار: اطلاعات وضعیت شما (مانند پاسخ‌های ثبت‌شده) در حافظه مرورگر ذخیره نمی‌شود. در صورت بستن مرورگر، وضعیت از دست خواهد رفت.
+            </div>
+
+            <div class="filters-panel">
+                <label for="authoredCategoryFilter"><i class="fa-solid fa-filter"></i> انتخاب مبحث:</label>
+                <select id="authoredCategoryFilter" class="filter-select" onchange="renderAuthoredQuestions()">
+                    <option value="all">همه مباحث</option>
+                    <!-- Options filled by JS -->
+                </select>
+            </div>
+
+            <div id="authoredQuestionsContainer"></div>
+        </section>
+
+        <!-- ================= EXAM ================= -->
+        <section id="exam-section" class="hidden">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fa-solid fa-stopwatch"></i> آزمون تعاملی</h2>
+            </div>
+
+            <!-- Setup Screen -->
+            <div id="examSetup">
+                <div class="exam-setup-grid">
+                    <div class="form-group">
+                        <label for="examCount">تعداد سوالات:</label>
+                        <select id="examCount" class="filter-select">
+                            <option value="5">۵ سوال</option>
+                            <option value="10" selected>۱۰ سوال</option>
+                            <option value="15">۱۵ سوال</option>
+                            <option value="20">۲۰ سوال</option>
+                            <option value="30">۳۰ سوال</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="examSource">منبع سوالات:</label>
+                        <select id="examSource" class="filter-select">
+                            <option value="all" selected>هر دو (نمونه + تالیفی)</option>
+                            <option value="sample">فقط نمونه سوالات</option>
+                            <option value="authored">فقط سوالات تالیفی</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="examDifficulty">سطح سختی:</label>
+                        <select id="examDifficulty" class="filter-select">
+                            <option value="all" selected>همه سطوح</option>
+                            <option value="آسان">آسان</option>
+                            <option value="متوسط">متوسط</option>
+                            <option value="سخت">سخت</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="examTopic">مبحث:</label>
+                        <select id="examTopic" class="filter-select">
+                            <option value="all" selected>همه مباحث</option>
+                            <!-- Options filled by JS -->
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="startExam()"><i class="fa-solid fa-play"></i> شروع آزمون</button>
+            </div>
+
+            <!-- Exam Area -->
+            <div id="examArea" class="exam-area hidden">
+                <div class="exam-header">
+                    <span>سوال <span id="currentQNum">1</span> از <span id="totalQNum">0</span></span>
+                    <span><i class="fa-regular fa-clock"></i> <span id="examTimer">00:00</span></span>
+                </div>
+                <div class="exam-progress-bar">
+                    <div class="exam-progress-fill" id="examProgressFill"></div>
+                </div>
+                <div class="question-text" id="examQuestionText" style="font-size: 1.2rem; margin-bottom: 1.5rem;"></div>
+                <div class="options-list" id="examOptions"></div>
+                <button class="btn-primary hidden" id="examNextBtn" onclick="nextExamQuestion()">سوال بعدی <i class="fa-solid fa-arrow-left"></i></button>
+            </div>
+
+            <!-- Results -->
+            <div id="examResults" class="results-container hidden">
+                <h2 style="color: var(--primary);">نتیجه آزمون</h2>
+                <div class="score-circle" id="scoreCircle">
+                    <span class="score-text" id="scoreText">0%</span>
+                </div>
+                <p id="scoreMessage" style="font-size: 1.1rem; margin-bottom: 1.5rem;"></p>
+                <button class="btn-primary" onclick="resetExam()" style="width: auto; padding: 10px 30px; margin: 0 auto;">
+                    <i class="fa-solid fa-rotate-right"></i> آزمون مجدد
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>ساخته شده برای دانشجویان پزشکی | MedEx</p>
     </footer>
 
-    <!-- بارگذاری اسکریپت‌ها -->
-    <script src="./data/rheumatology.js"></script>
-    <script src="./scripts/quiz-engine.js"></script>
-    <script src="./scripts/router.js"></script>
-    <script src="./scripts/app.js"></script>
-
-    <!-- منطق دکمه ورود -->
     <script>
-        document.getElementById('enter-btn').addEventListener('click', function() {
-            const splash = document.getElementById('splash-screen');
-            splash.style.opacity = '0';
-            
-            setTimeout(() => {
-                splash.style.display = 'none';
-                document.getElementById('main-header').style.display = 'flex';
-                document.getElementById('app-container').style.display = 'block';
-                document.getElementById('main-footer').style.display = 'block';
+        // --- 1. DATA ---
+        // (Sample Questions - From نمونه.pdf)
+        const sampleQuestions = [
+            { id: 1, category: "ضد افسردگی", difficulty: "متوسط", text: "اثر کدامیک از داروهای زیر چند هفته پس از قطع مصرف باقی می‌ماند؟", options: ["ترانیل سیپرومین", "فلوکستین", "سیتالوپرام", "نورتریپتیلین"], answer: 1, explanation: "فلوکستین نیمه عمر بسیار طولانی دارد و متابولیت فعال آن (نورفلوکستین) تا چند هفته در بدن باقی می‌ماند. این ویژگی باعث می‌شود سندروم قطع مصرف در آن کمتر دیده شود." },
+            { id: 2, category: "ضد افسردگی", difficulty: "متوسط", text: "کدامیک از داروهای ضد افسردگی زیر محرک قلب بوده و باعث کاهش فشار خون نمی‌شود؟", options: ["ونالافکسین", "نورتریپتیلین", "میرتازاپین", "ترازودون"], answer: 0, explanation: "ونالافکسین (SNRI) با مهار بازجذب نوراپی‌نفرین، اثر محرک قلبی دارد و برخلاف TCAها و میرتازاپین/ترازودون (که آلفا-بلوکر هستند و افت فشار می‌دهند)، باعث کاهش فشار خون نمی‌شود." },
+            { id: 3, category: "ضد افسردگی", difficulty: "متوسط", text: "در بیمار افسرده‌ای که زخم معده حاد دارد کدامیک از داروهای زیر ترجیحاً تجویز می‌شود؟", options: ["آمی‌تریپتیلین", "فلوکستین", "پاروکستین", "سیتالوپرام"], answer: 3, explanation: "TCAها (آمی‌تریپتیلین) به دلیل اثر آنتی‌کولینرژیک و تحریک ترشح اسید، در زخم معده ممنوع هستند. سیتالوپرام (و به طور کلی SSRIها) کمترین عوارض گوارشی را دارند و برای بیماران با مشکلات معده مناسب‌تر هستند." },
+            { id: 4, category: "ضد افسردگی", difficulty: "آسان", text: "کدامیک از داروهای ضد افسردگی زیر در ترک سیگار نیز استفاده می‌شود؟", options: ["فلوکستین", "بوپروپیون", "آموکساپین", "میرتازاپین"], answer: 1, explanation: "بوپروپیون (Wellbutrin) علاوه بر درمان افسردگی، برای کمک به ترک سیگار نیز تجویز می‌شود." },
+            { id: 5, category: "ضد افسردگی", difficulty: "متوسط", text: "افزایش وزن از عوارض جانبی کدامیک از دسته‌های داروهای ضد افسردگی است؟", options: ["TCA, MAOI", "TCA, SSRI", "SSRI فقط", "TCA فقط"], answer: 0, explanation: "TCAها (مثل آمی‌تریپتیلین) و MAOIها معمولاً باعث افزایش وزن می‌شوند. SSRIها به طور شایع باعث کاهش وزن اولیه می‌شوند." },
+            { id: 6, category: "ضد افسردگی", difficulty: "متوسط", text: "TCA در درمان کدامیک از موارد زیر نیز استفاده می‌شود؟", options: ["درمان دردهای مزمن", "قبل از عمل جراحی", "کاهش اشتها", "آریتمی قلب همراه با کاهش فشار خون"], answer: 0, explanation: "TCAها (مثل آمی‌تریپتیلین و نورتریپتیلین) برای دردهای نوروپاتیک و مزمن کاربرد دارند." },
+            { id: 7, category: "ضد افسردگی", difficulty: "متوسط", text: "در درمان حملات فوبیک کدامیک از داروهای زیر تجویز می‌شود؟", options: ["میرتازاپین و دولوکستین", "ترازودون و بوپروپیون", "ونالافکسین و کلومیپرامین", "نورتریپتیلین و پاروکستین"], answer: 3, explanation: "پاروکستین (SSRI) و نورتریپتیلین (TCA) در درمان اختلالات اضطرابی و فوبیا کاربرد دارند." },
+            { id: 8, category: "آنتی سایکوتیک", difficulty: "سخت", text: "بیمار فردی است که به علت حمله حاد جنون تحت درمان با هالوپریدول قرار گرفته و متعاقب تزریق دارو دچار تب و بی‌حرکتی شده است. تجویز کدام دارو برای درمان عارضه مناسب است؟", options: ["دانترولن و خنک کردن بدن", "دانترولن و دیازپام", "دانترولن و استامینوفن", "تری‌هگزی‌فنیدیل و دیازپام"], answer: 0, explanation: "علائم نشان‌دهنده سندروم نورولپتیک بدخیم (NMS) است. درمان اصلی شامل قطع دارو، خنک کردن بدن و تجویز دانترولن (برای شل کردن عضلات) یا بروموکریپتین است." },
+            { id: 9, category: "آنتی سایکوتیک", difficulty: "متوسط", text: "کدامیک از داروهای زیر در کنترل علائم اوتیسم استفاده می‌شود؟", options: ["آلزایمر", "تری‌فلورازین", "کلوزاپین", "ریسپریدون"], answer: 3, explanation: "ریسپریدون در درمان تحریک‌پذیری و رفتارهای تنش‌زای اوتیسم کاربرد دارد. آریپیپرازول نیز در این زمینه استفاده می‌شود." },
+            { id: 10, category: "آنتی سایکوتیک", difficulty: "متوسط", text: "Wet pillow (افزایش ترشحات بزاق) متعاقب مصرف کدامیک از داروهای زیر ایجاد می‌شود؟", options: ["تری‌فلورازین", "کلوزاپین", "تیوریدازین", "پرفنازین"], answer: 1, explanation: "کلوزاپین به دلیل اثر موسکارینی (آنتی‌کولینرژیک) می‌تواند باعث افزایش ترشح بزاق (Wet pillow syndrome) شود، در حالی که سایر آنتی‌سایکوتیک‌ها معمولاً خشکی دهان می‌دهند." },
+            { id: 11, category: "آنتی سایکوتیک", difficulty: "متوسط", text: "از میان داروهای آنتی‌سایکوتیک زیر کدامیک کمترین اثر آرام‌بخشی را دارد؟", options: ["تری‌فلورازین", "آریپیپرازول", "اولانزاپین", "کلروپرومازین"], answer: 1, explanation: "آریپیپرازول یک آگونیست نسبی دوپامین است و برخلاف کلروپرومازین و اولانزاپین (که آرام‌بخش قوی هستند)، اثر آرام‌بخشی بسیار کمی دارد و برای بیماران جوان مناسب است (Sedation)." },
+            { id: 12, category: "آنتی سایکوتیک", difficulty: "متوسط", text: "کاربرد داروهای آنتی‌سایکوتیک غیر از تجویز در اسکیزوفرنی کدامیک از موارد ذیل می‌باشد؟", options: ["بیماری پارکینسون، تهوع شدید، نورالژی", "ترک اعتیاد، بهبود خلق، دیسکینزی", "سندرم پرحرکتی کودکان، شب‌ادراری، وسواس", "آلزایمر (زوال عقل پیری)، حملات مانیک Tourette سندرم"], answer: 3, explanation: "آنتی‌سایکوتیک‌ها در درمان تیک‌های تورت (پیموزاید)، کنترل علائم روانی آلزایمر (ریسپریدون، کوتیاپین) و فاز مانیا (اولانزاپین، هالوپریدول) کاربرد دارند." },
+            { id: 13, category: "آنتی سایکوتیک", difficulty: "متوسط", text: "کدامیک از دسته‌های دارویی زیر به عنوان ضد استفراغ نیز استفاده می‌شوند؟", options: ["ضد اضطراب", "ضد صرع", "ضد افسردگی", "ضد جنون"], answer: 3, explanation: "برخی آنتی‌سایکوتیک‌ها (مثل کلروپرومازین، تری‌فلوپرازین و پروکلروپرازین) اثر ضد استفراغی قوی دارند و در شیمی‌درمانی استفاده می‌شوند." },
+            { id: 14, category: "آنتی سایکوتیک", difficulty: "متوسط", text: "کدامیک از داروهای آنتی‌سایکوتیک در بهبود اوتیسم نیز کاربرد دارد؟", options: ["ریسپریدون", "اولانزاپین", "تری‌فلوپرازین", "کلروپرومازین"], answer: 0, explanation: "ریسپریدون برای کنترل تحریک‌پذیری در اوتیسم استفاده می‌شود." },
+            { id: 15, category: "ضد صرع", difficulty: "متوسط", text: "کدام دارو در درمان میگرن استفاده نمی‌شود؟", options: ["توپیرامات", "والپروئیک اسید", "لووتیراستام", "گاباپنتین"], answer: 2, explanation: "والپروات، توپیرامات و گاباپنتین در پیشگیری از میگرن کاربرد دارند، اما لووتیراستام (داروی ضد صرع) در درمان میگرن استفاده نمی‌شود." },
+            { id: 16, category: "ضد صرع", difficulty: "سخت", text: "در بحران صرعی (حمله صرع) چه داروهایی تجویز می‌شود؟", options: ["کاربامازپین، دیازپام و فنی‌توئین", "فنی‌توئین، دیازپام و فنوباربیتال", "کاربامازپین، دیازپام و اسید والپروئیک", "کاربامازپین، اسید والپروئیک و فنوباربیتال"], answer: 1, explanation: "در وضعیت صرعی (Status Epilepticus)، خط اول دیازپام (یا لورازپام) است. در صورت عدم پاسخ، فنی‌توئین (یا فس‌فنی‌توئین) و در موارد مقاوم فنوباربیتال استفاده می‌شود." },
+            { id: 17, category: "ضد صرع", difficulty: "سخت", text: "اختلالات خونی از عوارض خطرناک کدامیک از داروهای ضد صرع زیر است؟", options: ["کاربامازپین", "فنی‌توئین", "گاباپنتین", "والپروئیک اسید"], answer: 0, explanation: "کاربامازپین می‌تواند باعث آپلازی آستانه‌ای (آنمی آپلاستیک) و لکوپنی شود. والپروات بیشتر هپاتوتوکسیک است." },
+            { id: 18, category: "ضد صرع", difficulty: "متوسط", text: "کدامیک از داروهای زیر در صرع کوچک و بزرگ هر دو موثر است؟", options: ["فنوباربیتال", "کاربامازپین", "اسید والپروئیک", "پریمیدون"], answer: 2, explanation: "والپروئیک اسید یک داروی وسیع‌الطیف است و در هر دو نوع صرع ایسانس (کوچک) و تونیک-کلونیک (بزرگ) موثر است." },
+            { id: 19, category: "ضد صرع", difficulty: "متوسط", text: "کدامیک از داروهای زیر موجب اختلالات رفتاری می‌شوند؟", options: ["لووتیراستام", "فنی‌توئین", "گاباپنتین", "والپروئیک اسید"], answer: 0, explanation: "لووتیراستام و فلپامات می‌توانند باعث اختلالات رفتاری (پرخاشگری، تحریک‌پذیری، افسردگی) شوند." },
+            { id: 20, category: "ضد صرع", difficulty: "متوسط", text: "کدامیک از عوارض زیر در مورد داروی مربوطه صحیح است؟", options: ["الموتریژین درماتیت شدید می‌دهد", "فلپامات موجب کاهش وزن می‌شود", "توپیرامات موجب افزایش اشتها می‌گردد", "اتوسوکسیماید موجب نیستاگموس می‌شود"], answer: 0, explanation: "الموتریژین می‌تواند باعث راش پوستی شدید (سندروم استیونس-جانسون) شود. توپیرامات باعث کاهش وزن و اشتها می‌شود. فلپامات باعث کاهش وزن نمی‌شود (بلکه خطر آپلاستیک آنمی دارد)." },
+            { id: 21, category: "ضد صرع", difficulty: "متوسط", text: "کدامیک از داروهای زیر موجب اختلالات رفتاری می‌شوند؟ (تکرار با گزینه‌های متفاوت)", options: ["گاباپنتین و کاربامازپین", "والپروئیک اسید و فلپامات", "توپیرامات و کاربامازپین", "لووتیراستام و فلپامات"], answer: 3, explanation: "این دو دارو به طور خاص با اختلالات رفتاری (تحریک‌پذیری، پرخاشگری) مرتبط هستند." },
+            { id: 22, category: "ضد صرع", difficulty: "متوسط", text: "والپروئیک اسید در کدامیک از انواع صرع زیر موثر است؟", options: ["حملات میوکلونیک", "همه موارد فوق", "صرع ایسانس", "صرع بزرگ"], answer: 1, explanation: "والپروات یک داروی وسیع‌الطیف است و در میوکلونیک، ایسانس و تونیک-کلونیک موثر است." },
+            { id: 23, category: "ضد صرع", difficulty: "سخت", text: "اختلالات خونی (لوکوپنی) از عوارض خطرناک کدامیک از داروهای ضد صرع زیر است؟ (تکرار)", options: ["فنی‌توئین", "کاربامازپین", "والپروئیک اسید", "گاباپنتین"], answer: 1, explanation: "کاربامازپین می‌تواند باعث لکوپنی و آپلازی آستانه‌ای شود." },
+            { id: 24, category: "ضد صرع", difficulty: "سخت", text: "در بحران صرعی چه داروهایی تجویز می‌شود؟ (تکرار با گزینه‌های متفاوت)", options: ["فنی‌توئین، دیازپام و فنوباربیتال", "کاربامازپین، دیازپام و اسید والپروئیک", "کاربامازپین، اسید والپروئیک و فنوباربیتال", "کاربامازپین، دیازپام و فنی‌توئین"], answer: 0, explanation: "دیازپام خط اول، فنی‌توئین خط دوم و فنوباربیتال در موارد مقاوم استفاده می‌شود." },
+            { id: 25, category: "اپیوئیدی", difficulty: "دشوار", text: "نالترکسون در درمان اعتیاد بکار برده می‌شود زیرا...", options: ["از بروز سندرم ترک جلوگیری می‌کند", "موجب تسهیل پیوند اپیوئیدها به رسپتورهای خود می‌شود", "خواص ضد دردی مشابه اپیوئیدها دارد اما اعتیاد ایجاد نمی‌کند", "تمایل مصرف اپیوئیدها را کاهش می‌دهد"], answer: 3, explanation: "نالترکسون آنتاگونیست خوراکی است. اگر فرد معتاد پس از ترک، دوباره اپیوئید مصرف کند، به دلیل بلوک شدن گیرنده‌ها، لذت نمی‌برد و تمایل به مصرف کاهش می‌یابد." },
+            { id: 26, category: "اپیوئیدی", difficulty: "متوسط", text: "بوپرنورفین ...... مورفین است.", options: ["آگونیست", "آنتاگونیست", "آگونیست/آنتاگونیست", "آگونیست نسبی"], answer: 3, explanation: "بوپرنورفین یک آگونیست نسبی گیرنده µ است (هم اثر آگونیستی و هم آنتاگونیستی دارد). به همین دلیل برای ترک اعتیاد استفاده می‌شود." },
+            { id: 27, category: "اپیوئیدی", difficulty: "متوسط", text: "اپیوئیدها کدامیک از آثار فارماکولوژیک زیر را دارا هستند؟", options: ["میوز، افت فشارخون، اسهال", "کاهش خواب، کاهش دمای بدن، یبوست", "کاهش خواب، خاصیت ضد سرفه، اسهال", "تهوع، افت فشارخون، تعریق"], answer: 1, explanation: "اپیوئیدها باعث میوز (تنگی مردمک)، کاهش دمای بدن (هیپوترمی)، یبوست (کاهش حرکات روده)، دپرسیون تنفسی، تهوع و افت فشار می‌شوند. گزینه 2 صحیح است (کاهش خواب یعنی خواب‌آوری)." },
+            { id: 28, category: "اپیوئیدی", difficulty: "دشوار", text: "بیمار Overdose با اپیوئیدها چگونه ظاهری دارد؟", options: ["هیجان زده با کرامپ و پرش عضلانی", "مانند مرده یخ کرده و با نبض ضعیف", "تنفس تند - بدن عرق کرده و خیس", "تشنج با بی‌اختیاری ادرار و مدفوع"], answer: 1, explanation: "علائم مسمومیت با اپیوئید شامل دپرسیون تنفسی، کاهش دمای بدن (مانند مرده)، کاهش فشار خون و نبض ضعیف، و میوز (مردمک سوزنی) است." },
+            { id: 29, category: "اپیوئیدی", difficulty: "متوسط", text: "کدامیک از داروهای ضد درد مخدر زیر موجب میوز نمی‌شود؟", options: ["کدئین", "پتیدین (مپیریدین)", "پنتازوسین", "مورفین"], answer: 1, explanation: "مپیریدین (پتیدین) دارای خواص آنتی‌کولینرژیک است و به جای میوز، باعث میدریاز (گشاد شدن مردمک) و تاکی‌کاردی می‌شود." },
+            { id: 30, category: "اپیوئیدی", difficulty: "متوسط", text: "پنتازوسین .... اپیوئیدی است؟", options: ["آگونیست/آنتاگونیست", "آنتاگونیست", "آگونیست نسبی", "آگونیست"], answer: 0, explanation: "پنتازوسین آگونیست گیرنده k و آنتاگونیست گیرنده µ است." },
+            { id: 31, category: "اپیوئیدی", difficulty: "سخت", text: "مورفین در ...... مصرف می‌شود.", options: ["ادم حاد ریه", "در بهبود مسمومیت با مواد توهم‌زا (اکس)", "کاهش درد پس از ضربات مغزی", "کاهش درد زایمان"], answer: 0, explanation: "مورفین با کاهش پیش‌بار قلب (به دلیل گشاد شدن عروق و افزایش هیستامین) و کاهش اضطراب، در درمان ادم حاد ریه (با منشا قلبی) کاربرد دارد. در ضربه مغزی ممنوع است (افزایش ICP) و در زایمان نیز به دلیل دپرسیون تنفسی نوزاد محدودیت دارد." },
+            { id: 32, category: "پارکینسون", difficulty: "متوسط", text: "در درمان پارکینسون کاربیدوپا با ال‌دوپا تجویز می‌شود زیرا...", options: ["باعث کاهش فعالیت آنزیم دوپا دکربوکسیلاز محیطی می‌شود", "باعث افزایش فعالیت آنزیم دوپا دکربوکسیلاز مرکزی می‌شود", "باعث کاهش فعالیت آنزیم دوپا دکربوکسیلاز مرکزی می‌شود", "باعث کاهش فعالیت آنزیم دوپا دکربوکسیلاز مرکزی می‌شود"], answer: 0, explanation: "کاربیدوپا از سد خونی مغزی عبور نمی‌کند و فقط آنزیم دکربوکسیلاز را در محیط (خون و روده) مهار می‌کند. این کار باعث می‌شود لوودوپا در محیط به دوپامین تبدیل نشود و عوارض گوارشی/قلبی کاهش یابد و مقدار بیشتری لوودوپا به مغز برسد." },
+            { id: 33, category: "پارکینسون", difficulty: "سخت", text: "در درمان پارکینسون با لوودوپا پس از مدتی اثر دارو کاهش و گاها قطع می‌شود. درمان این پدیده (On-Off effect) چیست؟", options: ["قطع لوودوپا", "افزودن بروموکریپتین", "افزودن سلژیلین", "همه موارد صحیح است"], answer: 3, explanation: "برای مدیریت پدیده On-Off، می‌توان دوز لوودوپا را تنظیم کرد، از آگونیست‌های دوپامین (بروموکریپتین) یا مهارکننده‌های MAO-B (سلژیلین) به عنوان درمان کمکی استفاده کرد." },
+            { id: 34, category: "پارکینسون", difficulty: "سخت", text: "در بیماران مبتلا به پارکینسون که تحت درمان با لوودوپا می‌باشند کدامیک از ضد استفراغ‌های زیر مجاز نیست؟", options: ["دیفن‌هیدرامین", "سیکلزین", "متوکلوپرامید", "دومپریدون"], answer: 2, explanation: "متوکلوپرامید آنتاگونیست دوپامین است و علائم پارکینسون را تشدید می‌کند. دومپریدون (که از سد خونی مغزی عبور نمی‌کند) مجاز است." },
+            { id: 35, category: "خواب آور", difficulty: "متوسط", text: "کدامیک از عوارض مصرف لیتیوم است؟", options: ["گالاکتوره", "دیابت شیرین", "افت فشارخون وضعی", "استئومالاسی"], answer: 3, explanation: "لیتیوم با جایگزینی کلسیم در استخوان می‌تواند باعث استئومالاسی (نرمی استخوان) شود. گالاکتوره (پرولاکتین بالا) عارضه آنتی‌سایکوتیک‌هاست. لیتیوم می‌تواند کم‌کاری تیروئید و دیابت بی‌مزه بدهد." }
+        ];
+
+        // (Authored Questions - From تالیفی.pdf)
+        const authoredQuestions = [
+            { id: 101, category: "ضد افسردگی", difficulty: "سخت", text: "بیمار ۳۰ ساله با سابقه ترومبوز وریدی عمقی، نیاز به جلوگیری از بارداری دارد. کدام روش مناسب است؟", options: ["OCP ترکیبی", "پروژستین خوراکی", "IUD", "کاندوم"], answer: 2, explanation: "در بیمار با سابقه ترومبوز، مصرف استروژن (OCP ترکیبی) ممنوع است. IUD (دستگاه داخل رحمی) گزینه ایمن است." },
+            { id: 102, category: "ضد افسردگی", difficulty: "متوسط", text: "کدام عارضه در مصرف استروژن در زنان یائسه، نیاز به R/O آدنوکارسینوم اندومتر دارد؟", options: ["خونریزی واژینال", "درد پستان", "سردرد", "افزایش وزن"], answer: 0, explanation: "هر گونه خونریزی واژینال در زنان یائسه تحت درمان با استروژن باید از نظر آدنوکارسینوم اندومتر بررسی شود." },
+            { id: 103, category: "ضد افسردگی", difficulty: "سخت", text: "کدام دارو در درمان DUB (خونریزی غیرطبیعی رحمی) امروزه ارجح است؟", options: ["استروژن", "پروژستین", "IUD لوونورژسترل", "NSAID"], answer: 2, explanation: "IUD لوونورژسترل (میرنا) امروزه به عنوان درمان ارجح برای DUB استفاده می‌شود." },
+            { id: 104, category: "ضد افسردگی", difficulty: "متوسط", text: "کدام دارو برای درمان پرمویی در دختران بالای ۳۵ سال با دیسمنوره و اندومتریوز مناسب است؟", options: ["قرص ترکیبی", "پروژستین", "اسپیرونولاکتون", "متفورمین"], answer: 0, explanation: "OCP ترکیبی (قرص ترکیبی) برای درمان پرمویی، دیسمنوره و اندومتریوز استفاده می‌شود." },
+            { id: 105, category: "ضد افسردگی", difficulty: "سخت", text: "کدام عارضه در مصرف OCP ترکیبی، به علت جزء پروژسترونی ایجاد می‌شود؟", options: ["افزایش وزن", "تهوع", "لکه‌بینی", "افسردگی"], answer: 0, explanation: "افزایش وزن از عوارض شایع جزء پروژسترونی OCP است." },
+            { id: 106, category: "ضد افسردگی", difficulty: "متوسط", text: "کدام دارو در درمان PMS با اختلال خلق مؤثر است؟", options: ["SSRI", "OCP", "NSAID", "دیورتیک"], answer: 0, explanation: "SSRIها (مانند فلوکستین، سرترالین) در درمان PMS با اختلال خلق مؤثر هستند." },
+            { id: 107, category: "ضد افسردگی", difficulty: "سخت", text: "کدام دارو در بارداری برای بقای حاملگی تجویز می‌شود ولی ممکن است تراتوژن باشد؟", options: ["پروژسترون", "استروژن", "هپارین", "آسپرین"], answer: 0, explanation: "پروژسترون برای حفظ حاملگی تجویز می‌شود ولی ممکن است تراتوژن باشد." },
+            { id: 108, category: "ضد افسردگی", difficulty: "متوسط", text: "کدام دارو در درمان سرطان پستان مقاوم به تاموکسیفن کاربرد دارد؟", options: ["فولوکسیم", "آناستروزول", "لتروزول", "تاموکسیفن"], answer: 1, explanation: "آناستروزول (مهارکننده آروماتاز) در سرطان پستان مقاوم به تاموکسیفن استفاده می‌شود." },
+            { id: 109, category: "ضد افسردگی", difficulty: "سخت", text: "کدام دارو در پیشگیری از استئوپروز پس از منوپوز، بدون تحریک اندومتر و پستان کاربرد دارد؟", options: ["استروژن", "تاموکسیفن", "رالوکسیفن", "آلندرونات"], answer: 2, explanation: "رالوکسیفن (SERM) در پیشگیری از استئوپروز استفاده می‌شود و برخلاف تاموکسیفن، اندومتر و پستان را تحریک نمی‌کند." },
+            { id: 110, category: "ضد افسردگی", difficulty: "متوسط", text: "کدام عارضه در مصرف تاموکسیفن شایع است؟", options: ["گرگرفتگی", "افزایش خطر سرطان اندومتر", "ترومبوز", "همه موارد"], answer: 3, explanation: "تاموکسیفن می‌تواند باعث گرگرفتگی، افزایش خطر سرطان اندومتر و ترومبوز شود." },
+            { id: 111, category: "آنتی سایکوتیک", difficulty: "آسان", text: "کدام دارو باعث آگرانولوسیتوز (کاهش شدید گلبول‌های سفید) می‌شود و نیاز به تست خون هفتگی دارد؟", options: ["هالوپریدول", "کلوزاپین", "ریسپریدون", "آریپیپرازول"], answer: 1, explanation: "کلوزاپین تنها آنتی‌سایکوتیکی است که خطر آگرانولوسیتوز دارد و پایش WBC الزامی است." },
+            { id: 112, category: "آنتی سایکوتیک", difficulty: "آسان", text: "کدام دارو یک آنتی‌سایکوتیک تیپیکال است؟", options: ["کوئتیاپین", "اولانزاپین", "هالوپریدول", "آریپیپرازول"], answer: 2, explanation: "هالوپریدول از دسته بوتیروفنون‌ها و داروی تیپیکال است. بقیه آتیپیکال هستند." },
+            { id: 113, category: "آنتی سایکوتیک", difficulty: "متوسط", text: "کدام عارضه جانبی زیر مربوط به آنتی‌سایکوتیک‌های تیپیکال (مثل هالوپریدول) است؟", options: ["دیسکینزی دیررس (TD)", "آگرانولوسیتوز", "افزایش وزن شدید", "دیابت"], answer: 0, explanation: "عوارض اکستراپیرامیدال (EPS) و دیسکینزی دیررس (TD) از عوارض شاخص داروهای تیپیکال هستند." },
+            { id: 114, category: "آنتی سایکوتیک", difficulty: "متوسط", text: "کدام دارو برای درمان «اوتیسم» و «تحریک‌پذیری» در کودکان استفاده می‌شود؟", options: ["کلوزاپین", "ریسپریدون", "هالوپریدول", "تیوریدازین"], answer: 1, explanation: "ریسپریدون در درمان رفتارهای تنش‌بالا، سفتی عضلات و ناپایداری قلبی پس از..." },
+            { id: 115, category: "آنتی سایکوتیک", difficulty: "دشوار", text: "کدام سندروم یک اورژانس پزشکی است که با تب بالا، سفتی عضلات و ناپایداری قلبی پس از مصرف آنتی‌سایکوتیک رخ می‌دهد؟", options: ["سندروم سروتونین", "سندروم نورولپتیک بدخیم (NMS)", "سندروم قطع مصرف", "سندروم آگرانولوسیتوز"], answer: 1, explanation: "NMS یک واکنش ایدیوسنکراتیک تهدیدکننده حیات است. درمان: قطع دارو، خنک کردن، دانترولین." },
+            { id: 116, category: "آنتی سایکوتیک", difficulty: "دشوار", text: "کدام دارو یک «آگونیست نسبی» دوپامین است و عوارض اکستراپیرامیدال کمی دارد؟", options: ["هالوپریدول", "کلروپرومازین", "آریپیپرازول", "تیوریدازین"], answer: 2, explanation: "آریپیپرازول آگونیست نسبی D2 است (هم اثر آگونیستی و هم آنتاگونیستی دارد) و به همین دلیل EPS کمتری ایجاد می‌کند." },
+            { id: 117, category: "آنتی سایکوتیک", difficulty: "متوسط", text: "کدام دارو برای درمان «سندروم تورت» (تیک عصبی) استفاده می‌شود؟", options: ["پیموزید", "کلوزاپین", "کوئتیاپین", "اولانزاپین"], answer: 0, explanation: "پیموزید اختصاصاً برای سندروم تورت کاربرد دارد." },
+            { id: 118, category: "آنتی سایکوتیک", difficulty: "آسان", text: "کدام دارو یک آنتی‌سایکوتیک آتیپیکال با عوارض کم EPS است اما می‌تواند باعث افزایش قند خون و دیابت شود؟", options: ["هالوپریدول", "کلروپرومازین", "کوئتیاپین", "ریسپریدون"], answer: 2, explanation: "کوئتیاپین (Seroquel) عوارض متابولیک (افزایش قند و چربی) دارد اما EPS کمتری ایجاد می‌کند." },
+            { id: 119, category: "آنتی سایکوتیک", difficulty: "دشوار", text: "کدام دارو در درمان «ترک اعتیاد به الکل» و «مواد روان‌گردان» استفاده می‌شود؟", options: ["هالوپریدول", "کوئتیاپین", "کلوزاپین", "پیموزید"], answer: 1, explanation: "کوئتیاپین برای ترک الکل و مواد روان‌گردان (مثل شیشه) کاربرد دارد." },
+            { id: 120, category: "آنتی سایکوتیک", difficulty: "متوسط", text: "کدام عارضه چشمی با مصرف «تیوریدازین» دیده می‌شود؟", options: ["گلوکوم", "رسوب در قرنیه و عدسی (پیرچشمی زودرس)", "تاری دید گذرا", "نابینایی"], answer: 1, explanation: "تیوریدازین باعث رسوب در قرنیه و عدسی (پیرچشمی زودرس) و رسوب در شبکیه (دید قهوه‌ای) می‌شود." },
+            { id: 121, category: "آنتی سایکوتیک", difficulty: "دشوار", text: "در مسمومیت با آنتی‌سایکوتیک‌ها، کدام علامت زیر دیده می‌شود؟", options: ["میدریاز (مردمک گشاد)", "میوز (مردمک تنگ)", "افزایش دمای بدن (هیپرترمی)", "تشنج"], answer: 1, explanation: "برخلاف انتظار (آنتی‌سایکوتیک‌ها معمولاً میدریاز می‌دهند)، در مسمومیت با آن‌ها میوز (مردمک تنگ) دیده می‌شود." },
+            { id: 122, category: "آنتی سایکوتیک", difficulty: "متوسط", text: "کدام دارو برای «پرخاشگری» و «رفتارهای تهاجمی» در بیماران روانی استفاده می‌شود؟", options: ["مولین‌دون", "کلوزاپین", "ریسپریدون", "هر سه"], answer: 3, explanation: "مولین‌دون، کلوزاپین و ریسپریدون همگی در کنترل رفتارهای تهاجمی کاربرد دارند." },
+            { id: 123, category: "آنتی سایکوتیک", difficulty: "دشوار", text: "کدام آنتی‌سایکوتیک در بیماران مبتلا به «پارکینسون» ممنوع است زیرا علائم حرکتی را تشدید می‌کند؟", options: ["کوئتیاپین", "کلوزاپین", "هالوپریدول", "آریپیپرازول"], answer: 2, explanation: "هالوپریدول (آنتی‌دوپامینرژیک قوی) علائم پارکینسون را به شدت تشدید می‌کند. کلوزاپین و کوئتیاپین در پارکینسون مجاز هستند." },
+            { id: 124, category: "آنتی سایکوتیک", difficulty: "متوسط", text: "کدام دارو برای «پیش‌بیهوشی» و «آرام‌بخشی» قبل از عمل استفاده می‌شود؟", options: ["هالوپریدول", "کلروپرومازین", "کلوزاپین", "ریسپریدون"], answer: 0, explanation: "هالوپریدول به صورت تزریقی برای آرام کردن بیماران تهاجمی و پیش‌بیهوشی استفاده می‌شود." },
+            { id: 125, category: "آنتی سایکوتیک", difficulty: "دشوار", text: "سندروم نورولپتیک بدخیم (NMS) با کدام دارو برای شل کردن عضلات درمان می‌شود؟", options: ["بنزتروپین", "دانترولین", "دیازپام", "نالوکسان"], answer: 1, explanation: "دانترولین یا بروموکریپتین برای رفع سفتی عضلانی در NMS استفاده می‌شود." },
+            { id: 126, category: "ضد صرع", difficulty: "آسان", text: "داروی انتخابی برای «صرع ایسانس» (Petit Mal) کدام است؟", options: ["فنی‌توئین", "کاربامازپین", "اتوسوکسیماید", "والپروات"], answer: 2, explanation: "اتوسوکسیماید داروی اختصاصی صرع ایسانس است. والپروات نیز به عنوان جایگزین استفاده می‌شود." },
+            { id: 127, category: "ضد صرع", difficulty: "آسان", text: "کدام دارو باعث «هیپرتروفی لثه» (رشد بیش از حد لثه) می‌شود؟", options: ["کاربامازپین", "فنی‌توئین", "والپروات", "الموتریژین"], answer: 1, explanation: "فنی‌توئین عوارض زیبایی شامل هیپرتروفی لثه، هیرسوتیسم (رویش مو) و خشن شدن صورت می‌دهد." },
+            { id: 128, category: "ضد صرع", difficulty: "متوسط", text: "کدام دارو در بارداری ممنوع است و می‌تواند باعث «نقص لوله عصبی» در جنین شود؟", options: ["الموتریژین", "کاربامازپین", "والپروئیک اسید", "فنی‌توئین"], answer: 2, explanation: "والپروات تراتوژن است و در بارداری ممنوعیت دارد (خطر اسپینا بیفیدا)." },
+            { id: 129, category: "ضد صرع", difficulty: "متوسط", text: "کدام دارو برای درمان «دردهای نوروپاتیک» و «صرع» استفاده می‌شود و عارضه شایع آن «افزایش وزن» است؟", options: ["توپیرامات", "گاباپنتین", "الموتریژین", "اتوسوکسیماید"], answer: 1, explanation: "گاباپنتین و پره‌گابالین برای درد نوروپاتیک و صرع استفاده می‌شوند و باعث افزایش وزن می‌شوند." },
+            { id: 130, category: "ضد صرع", difficulty: "دشوار", text: "کدام دارو خطر «آپلاستیک آنمی» و «هپاتوتوکسیسیتی» دارد و مصرف آن محدود شده است؟", options: ["فلپامات", "الموتریژین", "توپیرامات", "کاربامازپین"], answer: 0, explanation: "فلپامات به دلیل خطر آپلاستیک آنمی و نارسایی کبدی، فقط در موارد خاص استفاده می‌شود." },
+            { id: 131, category: "ضد صرع", difficulty: "دشوار", text: "کدام دارو برای «وضعیت صرعی» (Status Epilepticus) به عنوان خط اول درمان استفاده می‌شود؟", options: ["فنی‌توئین", "دیازپام", "فنوباربیتال", "والپروات"], answer: 1, explanation: "دیازپام (یا لورازپام) خط اول درمان وضعیت صرعی است. فنی‌توئین خط دوم است." },
+            { id: 132, category: "ضد صرع", difficulty: "متوسط", text: "کدام دارو یک «القاکننده آنزیم کبدی» قوی است و در نوزادان برای زردی استفاده می‌شود؟", options: ["فنوباربیتال", "کاربامازپین", "فنی‌توئین", "والپروات"], answer: 0, explanation: "فنوباربیتال القاکننده آنزیم‌های کبدی است و در زردی نوزادان برای افزایش متابولیسم بیلی‌روبین استفاده می‌شود." },
+            { id: 133, category: "ضد صرع", difficulty: "دشوار", text: "کدام دارو عارضه «راش پوستی شدید» (سندروم استیونس-جانسون) دارد و باید در صورت بروز قطع شود؟", options: ["کاربامازپین", "الموتریژین", "فنی‌توئین", "هر سه"], answer: 3, explanation: "کاربامازپین، الموتریژین و فنی‌توئین همگی می‌توانند باعث راش شوند. الموتریژین بیشتر با راش شدید مرتبط است." },
+            { id: 134, category: "ضد صرع", difficulty: "متوسط", text: "تزریق عضلانی کدام دارو ممنوع است زیرا باعث «نکروز بافتی» و «آبسه» می‌شود؟", options: ["دیازپام", "فنی‌توئین", "فنوباربیتال", "لورازپام"], answer: 1, explanation: "فنی‌توئین به دلیل pH بالا و رسوب در بافت، نباید IM تزریق شود (باید IV آهسته باشد)." },
+            { id: 135, category: "ضد صرع", difficulty: "دشوار", text: "کدام دارو برای «پیشگیری از میگرن» و «کاهش وزن» استفاده می‌شود؟", options: ["گاباپنتین", "توپیرامات", "والپروات", "الموتریژین"], answer: 1, explanation: "توپیرامات برای پیشگیری از میگرن و صرع استفاده می‌شود و عارضه آن کاهش وزن است." },
+            { id: 136, category: "ضد صرع", difficulty: "متوسط", text: "کدام دارو در درمان «اختلال دوقطبی» (فاز مانیا) کاربرد دارد؟", options: ["کاربامازپین", "والپروات", "الموتریژین", "هر سه"], answer: 3, explanation: "کاربامازپین، والپروات و الموتریژین همگی به عنوان تثبیت‌کننده خلق در دوقطبی استفاده می‌شوند." },
+            { id: 137, category: "ضد صرع", difficulty: "آسان", text: "کدام دارو یک «مهارکننده کانال سدیم» است و برای صرع نسبی و عمومی استفاده می‌شود؟", options: ["اتوسوکسیماید", "کاربامازپین", "دیازپام", "فنوباربیتال"], answer: 1, explanation: "کاربامازپین و فنی‌توئین با مهار کانال سدیم اثر می‌کنند." },
+            { id: 138, category: "ضد صرع", difficulty: "دشوار", text: "کدام دارو در «پورفیری» ممنوع است؟", options: ["فنی‌توئین", "فنوباربیتال", "کاربامازپین", "گاباپنتین"], answer: 1, explanation: "باربیتورات‌ها (مثل فنوباربیتال) در پورفیری ممنوع هستند." },
+            { id: 139, category: "ضد صرع", difficulty: "متوسط", text: "کدام دارو برای «تشنج ناشی از تب» در کودکان استفاده می‌شود؟", options: ["دیازپام (شیاف)", "فنی‌توئین", "کاربامازپین", "اتوسوکسیماید"], answer: 0, explanation: "دیازپام به صورت شیاف برای تشنج ناشی از تب در کودکان استفاده می‌شود." },
+            { id: 140, category: "ضد صرع", difficulty: "دشوار", text: "کدام دارو عارضه «اختلال شناختی» و «فراموشی» دارد و در سالمندان باید با احتیاط مصرف شود؟", options: ["الموتریژین", "توپیرامات", "گاباپنتین", "والپروات"], answer: 1, explanation: "توپیرامات می‌تواند باعث اختلال در حافظه و تمرکز (brain fog) شود." },
+            { id: 141, category: "اپیوئیدی", difficulty: "آسان", text: "آنتاگونیست اختصاصی اپیوئیدها که برای درمان مسمومیت استفاده می‌شود، کدام است؟", options: ["نالترکسون", "نالوکسان", "بوپرنورفین", "متادون"], answer: 1, explanation: "نالوکسان آنتاگونیست کامل و تزریقی است که برای مسمومیت حاد استفاده می‌شود." },
+            { id: 142, category: "اپیوئیدی", difficulty: "آسان", text: "کدام علامت مشخصه مسمومیت با اپیوئیدها است؟", options: ["میدریاز (مردمک گشاد)", "میوز (مردمک تنگ)", "تاکی‌کاردی", "اسهال"], answer: 1, explanation: "میوز (مردمک سوزنی) از علائم کلاسیک مسمومیت با اپیوئیدهاست." },
+            { id: 143, category: "اپیوئیدی", difficulty: "متوسط", text: "کدام دارو یک آگونیست اپیوئیدی با خواص آنتی‌کولینرژیک است و باعث «میدریاز» می‌شود؟", options: ["مورفین", "مپیریدین", "فنتانیل", "کدئین"], answer: 1, explanation: "مپیریدین (پتیدین) خاصیت آنتی‌موسکارینی دارد و به جای میوز، میدریاز و تاکی‌کاردی ایجاد می‌کند." },
+            { id: 144, category: "اپیوئیدی", difficulty: "متوسط", text: "کدام دارو برای «ترک اعتیاد» به مواد مخدر استفاده می‌شود و آگونیست نسبی است؟", options: ["نالوکسان", "بوپرنورفین", "نالترکسون", "پنتازوسین"], answer: 1, explanation: "بوپرنورفین آگونیست نسبی است و برای ترک اعتیاد کاربرد دارد." },
+            { id: 145, category: "اپیوئیدی", difficulty: "دشوار", text: "کدام دارو در دوزهای بالا می‌تواند باعث «تشنج» شود و در بیماران با سابقه صرع ممنوع است؟", options: ["مورفین", "ترامادول", "فنتانیل", "متادون"], answer: 1, explanation: "ترامادول در دوزهای بالا آستانه تشنج را کاهش می‌دهد." },
+            { id: 146, category: "اپیوئیدی", difficulty: "دشوار", text: "کدام دارو یک آنتاگونیست خوراکی اپیوئید است که برای «درمان نگهدارنده ترک اعتیاد» استفاده می‌شود؟", options: ["نالوکسان", "نالترکسون", "بوپرنورفین", "متادون"], answer: 1, explanation: "نالترکسون خوراکی است و برای پیشگیری از عود در افراد ترک‌کرده استفاده می‌شود." },
+            { id: 147, category: "اپیوئیدی", difficulty: "متوسط", text: "کدام عارضه اپیوئیدها «تحمل» پیدا نمی‌کند؟", options: ["دپرسیون تنفسی", "یبوست", "بی‌دردی", "سرخوشی"], answer: 1, explanation: "یبوست و میوز از عوارضی هستند که به آن‌ها تحمل ایجاد نمی‌شود." },
+            { id: 148, category: "اپیوئیدی", difficulty: "آسان", text: "کدام دارو برای «دردهای شدید» و «بیهوشی» استفاده می‌شود و ۱۰۰ برابر مورفین قدرت دارد؟", options: ["کدئین", "فنتانیل", "ترامادول", "متادون"], answer: 1, explanation: "فنتانیل بسیار قوی‌تر از مورفین است و در بیهوشی و پمپ درد استفاده می‌شود." },
+            { id: 149, category: "اپیوئیدی", difficulty: "دشوار", text: "کدام دارو در «ضربه مغزی» ممنوع است زیرا باعث افزایش فشار داخل جمجمه می‌شود؟", options: ["مورفین", "استامینوفن", "ایبوپروفن", "نالوکسان"], answer: 0, explanation: "اپیوئیدها (مثل مورفین) با دپرسیون تنفسی و افزایش CO2، باعث افزایش فشار داخل مغزی می‌شوند." },
+            { id: 150, category: "اپیوئیدی", difficulty: "متوسط", text: "کدام دارو برای «سرفه» در دوزهای پایین استفاده می‌شود؟", options: ["مورفین", "کدئین", "فنتانیل", "متادون"], answer: 1, explanation: "کدئین در دوزهای پایین (۱۰-۳۰ میلی‌گرم) اثر ضد سرفه دارد." },
+            { id: 151, category: "اپیوئیدی", difficulty: "دشوار", text: "کدام دارو در مسمومیت با اپیوئیدها استفاده می‌شود اما در معتادان باعث «سندروم ترک» شدید می‌شود؟", options: ["نالوکسان", "متادون", "بوپرنورفین", "نالترکسون"], answer: 0, explanation: "نالوکسان در معتادان به‌طور ناگهانی باعث ترک شدید (withdrawal) می‌شود." },
+            { id: 152, category: "اپیوئیدی", difficulty: "متوسط", text: "کدام دارو برای «دردهای حاد» و «دردهای سرطانی» استفاده می‌شود و استاندارد طلایی است؟", options: ["ترامادول", "مورفین", "کدئین", "بوپرنورفین"], answer: 1, explanation: "مورفین استاندارد طلایی برای دردهای شدید (سرطانی و پس از جراحی) است." },
+            { id: 153, category: "اپیوئیدی", difficulty: "دشوار", text: "کدام دارو یک آگونیست µ و آنتاگونیست κ است و برای «درد» استفاده می‌شود اما اعتیاد نمی‌آورد؟", options: ["پنتازوسین", "بوپرنورفین", "نالوکسان", "متادون"], answer: 0, explanation: "پنتازوسین آگونیست k و آنتاگونیست μ (بی‌دردی و عدم وابستگی) است." },
+            { id: 154, category: "اپیوئیدی", difficulty: "متوسط", text: "کدام عارضه اپیوئیدها به دلیل افزایش هیستامین ایجاد می‌شود؟", options: ["یبوست", "خارش و قرمزی پوست", "دپرسیون تنفسی", "میوز"], answer: 1, explanation: "مورفین با آزادسازی هیستامین باعث خارش، کهیر و گشاد شدن عروق می‌شود." },
+            { id: 155, category: "اپیوئیدی", difficulty: "دشوار", text: "کدام دارو در ترک اعتیاد به «الکل» نیز استفاده می‌شود؟", options: ["نالترکسون", "نالوکسان", "متادون", "بوپرنورفین"], answer: 0, explanation: "نالترکسون در درمان نگهدارنده ترک الکل نیز کاربرد دارد." },
+            { id: 156, category: "پارکینسون", difficulty: "آسان", text: "داروی اصلی و استاندارد طلایی درمان پارکینسون کدام است؟", options: ["کاربیدوپا", "لوودوپا", "سلژیلین", "بروموکریپتین"], answer: 1, explanation: "لوودوپا پیش‌ساز دوپامین است و موثرترین دارو برای کنترل علائم پارکینسون است." },
+            { id: 157, category: "پارکینسون", difficulty: "آسان", text: "لوودوپا معمولاً همراه با کدام دارو تجویز می‌شود تا عوارض گوارشی آن کاهش یابد؟", options: ["انتاکاپون", "کاربیدوپا", "سلژیلین", "آمانتادین"], answer: 1, explanation: "کاربیدوپا (یا بنسرازید) مهارکننده دکربوکسیلاز محیطی است و از تبدیل لوودوپا به دوپامین در محیط (و ایجاد تهوع) جلوگیری می‌کند." },
+            { id: 158, category: "پارکینسون", difficulty: "متوسط", text: "کدام عارضه در درمان طولانی‌مدت با لوودوپا رخ می‌دهد و شامل نوسانات حرکتی است؟", options: ["پدیده On-Off", "دیسکینزی دیررس", "سندروم نورولپتیک بدخیم", "آگرانولوسیتوز"], answer: 0, explanation: "پدیده On-Off به نوسان بین حالت خوب (On) و بد (Off) حرکتی گفته می‌شود." },
+            { id: 159, category: "پارکینسون", difficulty: "متوسط", text: "کدام دارو یک مهارکننده MAO-B است و در پارکینسون استفاده می‌شود؟", options: ["سلژیلین", "انتاکاپون", "آمانتادین", "تری‌هگزی‌فنیدیل"], answer: 0, explanation: "سلژیلین یک مهارکننده MAO-B است." },
+            { id: 160, category: "پارکینسون", difficulty: "دشوار", text: "کدام دارو عارضه «فیبروز قلبی» و «توهم» دارد و از مشتقات ارگوت است؟", options: ["برامی‌پکسول", "بروموکریپتین", "روپینیرول", "آمانتادین"], answer: 1, explanation: "بروموکریپتین (مشتق ارگوت) می‌تواند باعث فیبروز قلبی و توهم شود." },
+            { id: 161, category: "پارکینسون", difficulty: "دشوار", text: "کدام دارو برای «لرزش» در پارکینسون استفاده می‌شود اما در سالمندان باعث «اختلال شناختی» می‌شود؟", options: ["تری‌هگزی‌فنیدیل", "لوودوپا", "سلژیلین", "انتاکاپون"], answer: 0, explanation: "تری‌هگزی‌فنیدیل (آنتی‌کولینرژیک) برای لرزش استفاده می‌شود اما در سالمندان باعث یبوست و اختلال حافظه می‌شود." },
+            { id: 162, category: "پارکینسون", difficulty: "متوسط", text: "کدام دارو برای «پارکینسون» و «آنفولانزا» استفاده می‌شود؟", options: ["آمانتادین", "سلژیلین", "کاربیدوپا", "بروموکریپتین"], answer: 0, explanation: "آمانتادین یک ضد ویروس است که به طور تصادفی اثر ضد پارکینسون نیز دارد." },
+            { id: 163, category: "پارکینسون", difficulty: "دشوار", text: "کدام دارو یک مهارکننده COMT است و می‌تواند باعث «اسهال» و «رنگ ادرار» شود؟", options: ["انتاکاپون", "تولکاپون", "سلژیلین", "آمانتادین"], answer: 0, explanation: "انتاکاپون مهارکننده COMT محیطی است و باعث بی‌رنگ شدن ادرار و اسهال می‌شود." },
+            { id: 164, category: "پارکینسون", difficulty: "متوسط", text: "کدام دارو در پارکینسون ممنوع است زیرا علائم حرکتی را تشدید می‌کند؟", options: ["کلوزاپین", "کوئتیاپین", "هالوپریدول", "آریپیپرازول"], answer: 2, explanation: "هالوپریدول (آنتی‌دوپامینرژیک قوی) علائم پارکینسون را تشدید می‌کند." },
+            { id: 165, category: "پارکینسون", difficulty: "آسان", text: "کدام دارو پیش‌ساز دوپامین است و از سد خونی مغزی عبور می‌کند؟", options: ["دوپامین", "لوودوپا", "کاربیدوپا", "انتاکاپون"], answer: 1, explanation: "دوپامین خودش از سد خونی مغزی عبور نمی‌کند، اما لوودوپا (پیش‌ساز) عبور می‌کند." },
+            { id: 166, category: "پارکینسون", difficulty: "دشوار", text: "کدام دارو برای «پارکینسون» استفاده می‌شود و عارضه «حمله خواب» (Sleep Attack) دارد؟", options: ["پرامی‌پکسول", "لوودوپا", "سلژیلین", "تری‌هگزی‌فنیدیل"], answer: 0, explanation: "آگونیست‌های دوپامین (مثل پرامی‌پکسول) می‌توانند باعث حملات ناگهانی خواب شوند." },
+            { id: 167, category: "پارکینسون", difficulty: "متوسط", text: "کدام ویتامین جذب و اثر لوودوپا را کاهش می‌دهد؟", options: ["ویتامین C", "ویتامین B6", "ویتامین D", "ویتامین A"], answer: 1, explanation: "ویتامین B6 (پیریدوکسین) باعث کاهش اثر لوودوپا می‌شود." },
+            { id: 168, category: "پارکینسون", difficulty: "دشوار", text: "کدام دارو در پارکینسون برای «دیسکینزی» ناشی از لوودوپا استفاده می‌شود؟", options: ["آمانتادین", "سلژیلین", "انتاکاپون", "کاربیدوپا"], answer: 0, explanation: "آمانتادین در کاهش دیسکینزی ناشی از لوودوپا موثر است." },
+            { id: 169, category: "پارکینسون", difficulty: "متوسط", text: "کدام دارو یک آنتی‌کولینرژیک است و برای «لرزش» پارکینسون استفاده می‌شود؟", options: ["بنزتروپین", "سلژیلین", "لوودوپا", "انتاکاپون"], answer: 0, explanation: "بنزتروپین و تری‌هگزی‌فنیدیل آنتی‌کولینرژیک‌های مورد استفاده در پارکینسون هستند." },
+            { id: 170, category: "پارکینسون", difficulty: "دشوار", text: "کدام دارو در بیماران با «گلوکوم زاویه بسته» ممنوع است؟", options: ["لوودوپا", "تری‌هگزی‌فنیدیل", "سلژیلین", "آمانتادین"], answer: 1, explanation: "آنتی‌کولینرژیک‌ها (مثل تری‌هگزی‌فنیدیل) در گلوکوم زاویه بسته ممنوع هستند زیرا فشار داخل چشم را افزایش می‌دهند." },
+            { id: 171, category: "خواب آور", difficulty: "آسان", text: "کدام دارو آنتاگونیست اختصاصی بنزودیازپین‌ها است؟", options: ["نالوکسان", "فلومازنیل", "فیزوستیگمین", "آتروپین"], answer: 1, explanation: "فلومازنیل آنتاگونیست گیرنده بنزودیازپین است و برای مسمومیت استفاده می‌شود." },
+            { id: 172, category: "خواب آور", difficulty: "آسان", text: "کدام دسته دارویی باعث افزایش «فرکانس» باز شدن کانال کلر می‌شود؟", options: ["باربیتورات‌ها", "بنزودیازپین‌ها", "Z-drugs", "ملاتونین"], answer: 1, explanation: "بنزودیازپین‌ها فرکانس باز شدن کانال کلر را افزایش می‌دهند، باربیتورات‌ها مدت زمان باز بودن کانال را." },
+            { id: 173, category: "خواب آور", difficulty: "متوسط", text: "کدام دارو یک «القاکننده آنزیم کبدی» است و در زردی نوزادان استفاده می‌شود؟", options: ["دیازپام", "فنوباربیتال", "زولپیدم", "لورازپام"], answer: 1, explanation: "فنوباربیتال (باربیتورات) القاکننده آنزیم کبدی است و در زردی نوزادان برای افزایش متابولیسم بیلی‌روبین استفاده می‌شود." },
+            { id: 174, category: "خواب آور", difficulty: "متوسط", text: "کدام دارو برای «بی‌خوابی» استفاده می‌شود و عارضه «راه رفتن در خواب» دارد؟", options: ["دیازپام", "زولپیدم", "فنوباربیتال", "کلردیازپوکساید"], answer: 1, explanation: "زولپیدم (Z-drug) عوارضی مثل راه رفتن در خواب و فراموشی دارد." },
+            { id: 175, category: "خواب آور", difficulty: "دشوار", text: "کدام دارو در مسمومیت با بنزودیازپین‌ها در بیماران با سابقه صرع می‌تواند باعث تشنج شود؟", options: ["فلومازنیل", "نالوکسان", "فیزوستیگمین", "دانترولین"], answer: 0, explanation: "فلومازنیل در بیماران با سابقه صرع یا مصرف TCAها می‌تواند تشنج ایجاد کند." },
+            { id: 176, category: "خواب آور", difficulty: "دشوار", text: "کدام دارو یک آگونیست ملاتونین است و برای «تنظیم ریتم شبانه‌روزی» استفاده می‌شود؟", options: ["راملتیون", "زولپیدم", "دیازپام", "کلونازپام"], answer: 0, explanation: "راملتیون آگونیست ملاتونین است و برای اختلالات ریتم خواب (مثل جت لگ) استفاده می‌شود." },
+            { id: 177, category: "خواب آور", difficulty: "متوسط", text: "کدام بنزودیازپین «طولانی اثر» است و متابولیت فعال دارد؟", options: ["لورازپام", "اکسازپام", "دیازپام", "میدازولام"], answer: 2, explanation: "دیازپام، کلردیازپوکساید و فلورازپام طولانی اثر هستند (متابولیت فعال). لورازپام و اکسازپام کوتاه اثر هستند." },
+            { id: 178, category: "خواب آور", difficulty: "آسان", text: "کدام دارو برای «پیش‌بیهوشی» و «شل کننده عضلانی» استفاده می‌شود؟", options: ["دیازپام", "زولپیدم", "راملتیون", "فنوباربیتال"], answer: 0, explanation: "دیازپام اثر شل کننده عضلانی و ضد اضطراب دارد و در پیش‌بیهوشی استفاده می‌شود." },
+            { id: 179, category: "خواب آور", difficulty: "دشوار", text: "کدام باربیتورات برای «بیهوشی کوتاه مدت» (مثل سقط جنین) استفاده می‌شود؟", options: ["فنوباربیتال", "تیوپنتال", "پنتوباربیتال", "سکوباربیتال"], answer: 1, explanation: "تیوپنتال (نسدونال) به دلیل چربی دوستی بالا، سریع وارد مغز می‌شود و برای بیهوشی کوتاه مدت استفاده می‌شود." },
+            { id: 180, category: "خواب آور", difficulty: "متوسط", text: "کدام دارو در سالمندان باعث «زمین خوردن» و «اختلال شناختی» می‌شود و باید با احتیاط مصرف شود؟", options: ["دیازپام (طولانی اثر)", "لورازپام", "زولپیدم", "راملتیون"], answer: 0, explanation: "بنزودیازپین‌های طولانی‌اثر (مثل دیازپام) در سالمندان تجمع می‌یابند و باعث سقوط و گیجی می‌شوند." },
+            { id: 181, category: "خواب آور", difficulty: "دشوار", text: "کدام دارو در «پورفیری» ممنوع است؟", options: ["دیازپام", "فنوباربیتال", "لورازپام", "زولپیدم"], answer: 1, explanation: "باربیتورات‌ها (مثل فنوباربیتال) در پورفیری ممنوع هستند." },
+            { id: 182, category: "خواب آور", difficulty: "متوسط", text: "کدام دارو برای «ترک الکل» استفاده می‌شود و از دسته بنزودیازپین‌هاست؟", options: ["دیازپام", "زولپیدم", "راملتیون", "فنوباربیتال"], answer: 0, explanation: "دیازپام برای کنترل علائم ترک الکل (تشنج، اضطراب) استفاده می‌شود." },
+            { id: 183, category: "خواب آور", difficulty: "دشوار", text: "کدام دارو در «مسمومیت با باربیتورات‌ها» برای افزایش دفع کلیوی استفاده می‌شود؟", options: ["بی‌کربنات سدیم (قلیایی کردن ادرار)", "فلومازنیل", "نالوکسان", "دیازپام"], answer: 0, explanation: "قلیایی کردن ادرار با بی‌کربنات سدیم، دفع باربیتورات‌ها (اسید ضعیف) را افزایش می‌دهد." },
+            { id: 184, category: "خواب آور", difficulty: "متوسط", text: "کدام دارو یک «Z-drug» است و برای «بی‌خوابی» استفاده می‌شود؟", options: ["زالپلون", "دیازپام", "فنوباربیتال", "کلردیازپوکساید"], answer: 0, explanation: "زالپلون و زولپیدم از دسته Z-drugs هستند (خواب‌آور با اثر سریع)." },
+            { id: 185, category: "خواب آور", difficulty: "دشوار", text: "کدام دارو در «مسمومیت با بنزودیازپین‌ها» به عنوان آنتاگونیست استفاده می‌شود اما قدرت کافی ندارد؟", options: ["فلومازنیل", "نالوکسان", "فیزوستیگمین", "آتروپین"], answer: 0, explanation: "فلومازنیل آنتاگونیست بنزودیازپین است اما قدرت آن محدود است و در مسمومیت‌های شدید به تنهایی کافی نیست." }
+        ];
+
+        // (Summary Data - From خلاصه.pdf)
+        const summaryData = [
+            {
+                id: "antidepressants", title: "داروهای ضد افسردگی (TCA, SSRI, MAOI)",
+                nodes: [
+                    { title: "عوارض SSRI", text: "گوارشی (تهوع)، جنسی (اختلال عملکرد)، سردرد، بی‌خوابی (فلوکستین) یا خواب‌آلودگی (سیتالوپرام)، سندروم قطع مصرف." },
+                    { title: "نکته طلایی", text: "فلوکستین: نیمه‌عمر طولانی، بی‌خوابی. پاروکستین: مناسب PMS و PTSD. سیتالوپرام: کم‌ترین عوارض گوارشی، خواب‌آور." },
+                    { title: "MAOI", text: "مهار آنزیم MAO. داروها: فنلزین، ترانیل‌سیپرومین. محدودیت: خط آخر درمان به دلیل عوارض و تداخلات (پنیر، سوسیس، کالباس)." },
+                    { title: "سندروم سروتونین", text: "مصرف همزمان SSRI با MAOI یا سایر داروهای افزایش‌دهنده سروتونین (مثل ترامادول) → تب، لرز، سفتی عضلات، تشنج." }
+                ],
+                warnings: [
+                    "تله ۱: مصرف همزمان MAOI و SSRI → سندروم سروتونین (کشنده).",
+                    "تله ۲: در افراد چاق، TCA باعث افزایش وزن می‌شود (میرتازاپین نیز).",
+                    "تله ۳: قطع ناگهانی SSRI (به‌ویژه پاروکستین) → سندروم قطع مصرف (شبه آنفولانزا، گیجی، اضطراب)."
+                ]
+            },
+            {
+                id: "antipsychotics", title: "داروهای ضد جنون (آنتی‌سایکوتیک)",
+                nodes: [
+                    { title: "تیپیکال (کلاسیک)", text: "هالوپریدول، کلروپرومازین. عوارض: EPS (دیستونی حاد، آکاتیزیا، دیسکینزی دیررس)، هایپرپرولاکتینمی." },
+                    { title: "آتیپیکال (غیرمعمول)", text: "کلوزاپین (خطر آگرانولوسیتوز، نیاز به تست WBC هفتگی)، ریسپریدون، اولانزاپین، کوئتیاپین (افزایش وزن، دیابت)." },
+                    { title: "آریپیپرازول", text: "آگونیست نسبی دوپامین، عوارض EPS کم، مناسب برای بیماران جوان." },
+                    { title: "NMS (نورولپتیک بدخیم)", text: "تب بالا، سفتی عضلات، تغییرات هوشیاری. درمان: قطع دارو، خنک کردن، دانترولین." }
+                ],
+                warnings: [
+                    "تله ۱: هالوپریدول در پارکینسون ممنوع است (تشدید علائم حرکتی).",
+                    "تله ۲: کلوزاپین تنها آنتی‌سایکوتیکی است که آگرانولوسیتوز می‌دهد.",
+                    "تله ۳: در مسمومیت با آنتی‌سایکوتیک‌ها، برخلاف انتظار، میوز (مردمک تنگ) دیده می‌شود."
+                ]
+            },
+            {
+                id: "antiepileptics", title: "داروهای ضد صرع",
+                nodes: [
+                    { title: "کلاسیک", text: "فنی‌توئین (هیپرتروفی لثه، هیرسوتیسم)، کاربامازپین (مهار کانال سدیم، آپلازی آستانه‌ای)، والپروئیک اسید (وسیع‌الطیف، هپاتوتوکسیک، تراتوژن)." },
+                    { title: "جدیدتر", text: "لاموتریژین (راش پوستی شدید)، گاباپنتین/پره‌گابالین (درد نوروپاتیک، افزایش وزن)، توپیرامات (کاهش وزن، اختلال شناختی)، فلپامات (آپلاستیک آنمی)." },
+                    { title: "وضعیت صرعی (Status Epilepticus)", text: "تشنج طولانی (>۵ دقیقه). درمان: دیازپام (خط اول)، فنی‌توئین یا فس‌فنی‌توئین (خط دوم)." }
+                ],
+                warnings: [
+                    "تله ۱: فنی‌توئین به دلیل pH بالا و رسوب در بافت، نباید IM تزریق شود.",
+                    "تله ۲: والپروات در بارداری ممنوع است (نقص لوله عصبی).",
+                    "تله ۳: کاربامازپین، لاموتریژین و فنی‌توئین می‌توانند باعث راش شوند."
+                ]
+            },
+            {
+                id: "opioids", title: "داروهای اپیوئیدی (ضد دردهای مخدر)",
+                nodes: [
+                    { title: "گیرنده‌ها", text: "µ (مو)، κ (کاپا)، δ (دلتا). مهار پیش‌سیناپسی ورود کلسیم (کاهش آزادسازی نوروترانسمیتر)." },
+                    { title: "آگونیست‌های قوی", text: "مورفین (استاندارد طلایی)، فنتانیل (۱۰۰ برابر مورفین)، متادون (ترک اعتیاد)." },
+                    { title: "آگونیست‌های ضعیف", text: "کدئین (ضد سرفه در دوز پایین)، ترامادول (مهار بازجذب سروتونین/نوراپی‌نفرین، خطر تشنج)." },
+                    { title: "آنتاگونیست‌ها", text: "نالوکسان (تزریقی، مسمومیت حاد)، نالترکسون (خوراکی، نگهدارنده ترک اعتیاد)." }
+                ],
+                warnings: [
+                    "تله ۱: مسمومیت با اپیوئیدها → دپرسیون تنفسی، میوز، کاهش هوشیاری (مانند مرده یخ‌زده).",
+                    "تله ۲: مورفین در ضربه مغزی ممنوع است (افزایش ICP).",
+                    "تله ۳: ترامادول در بیماران با سابقه صرع ممنوع است."
+                ]
+            },
+            {
+                id: "parkinson", title: "داروهای ضد پارکینسون",
+                nodes: [
+                    { title: "لوودوپا", text: "پیش‌ساز دوپامین، استاندارد طلایی. همراه با کاربیدوپا (مهار دکربوکسیلاز محیطی) برای کاهش عوارض گوارشی." },
+                    { title: "آگونیست‌های دوپامین", text: "بروموکریپتین (مشتق ارگوت، فیبروز قلبی)، پرامی‌پکسول (حمله خواب)." },
+                    { title: "مهارکننده‌های MAO-B", text: "سلژیلین، رازاژیلین (کاهش متابولیسم دوپامین)." },
+                    { title: "مهارکننده‌های COMT", text: "انتاکاپون (اسهال، رنگ ادرار)، تولکاپون (هپاتوتوکسیسیتی)." }
+                ],
+                warnings: [
+                    "تله ۱: پدیده On-Off در درمان طولانی‌مدت با لوودوپا (نوسانات حرکتی).",
+                    "تله ۲: ویتامین B6 جذب و اثر لوودوپا را کاهش می‌دهد.",
+                    "تله ۳: آنتی‌کولینرژیک‌ها (تری‌هگزی‌فنیدیل) در سالمندان باعث اختلال شناختی و در گلوکوم زاویه بسته ممنوع هستند."
+                ]
+            },
+            {
+                id: "sedatives", title: "داروهای آرام‌بخش و خواب‌آور",
+                nodes: [
+                    { title: "بنزودیازپین‌ها (BZ)", text: "افزایش فرکانس باز شدن کانال کلر. دیازپام (طولانی‌اثر)، لورازپام (متوسط)، اکسازپام (کوتاه‌اثر). آنتاگونیست: فلومازنیل." },
+                    { title: "باربیتورات‌ها (BB)", text: "افزایش مدت زمان باز شدن کانال کلر. فنوباربیتال (طولانی‌اثر)، تیوپنتال (بیهوشی کوتاه). عوارض: دپرسیون تنفسی شدید." },
+                    { title: "Z-drugs", text: "زولپیدم، زالپلون (خواب‌آور با اثر سریع و کوتاه). عوارض: راه رفتن در خواب، فراموشی." }
+                ],
+                warnings: [
+                    "تله ۱: بنزودیازپین‌های طولانی‌اثر (دیازپام) در سالمندان باعث سقوط و گیجی می‌شوند.",
+                    "تله ۲: فلومازنیل در بیماران با سابقه صرع می‌تواند تشنج ایجاد کند.",
+                    "تله ۳: باربیتورات‌ها در پورفیری ممنوع هستند."
+                ]
+            }
+        ];
+
+        // --- 2. LOGIC & RENDERING ---
+
+        // Utility: Get all unique categories
+        function getUniqueCategories() {
+            const categories = new Set();
+            sampleQuestions.forEach(q => categories.add(q.category));
+            authoredQuestions.forEach(q => categories.add(q.category));
+            return Array.from(categories);
+        }
+
+        // --- Navigation Logic ---
+        function showLanding() {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById('landing-page').classList.remove('hidden');
+            document.getElementById('backBtn').classList.add('hidden');
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+            document.getElementById('backBtn').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        // --- Render Sample Questions ---
+        function renderSampleQuestions() {
+            const container = document.getElementById('sampleQuestionsContainer');
+            const filter = document.getElementById('sampleCategoryFilter').value;
+            container.innerHTML = '';
+
+            const filtered = filter === 'all' 
+                ? sampleQuestions 
+                : sampleQuestions.filter(q => q.category === filter);
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<p class="text-center" style="color: var(--text-light);">سوالی در این دسته‌بندی یافت نشد.</p>';
+                return;
+            }
+
+            filtered.forEach(q => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
                 
-                // *** تغییر کلیدی: هدایت مستقیم به صفحه اصلی ***
-                router.navigate('/');
-            }, 500);
+                // Options HTML
+                const optionsHtml = q.options.map((opt, index) => {
+                    return `<div class="option-item" onclick="handleAnswer(this, ${index}, ${q.answer}, '${q.explanation.replace(/'/g, "\\'")}')">
+                        <span style="font-weight: bold; color: var(--primary);">${index + 1}.</span> ${opt}
+                    </div>`;
+                }).join('');
+
+                card.innerHTML = `
+                    <div class="question-header">
+                        <div class="badges">
+                            <span class="badge badge-category">${q.category}</span>
+                            <span class="badge badge-difficulty ${q.difficulty}">${q.difficulty}</span>
+                        </div>
+                        <span style="color: var(--text-light); font-size: 0.9rem;">#${q.id}</span>
+                    </div>
+                    <div class="question-text">${q.text}</div>
+                    <div class="options-list">
+                        ${optionsHtml}
+                    </div>
+                    <div class="explanation"></div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- Render Authored Questions ---
+        function renderAuthoredQuestions() {
+            const container = document.getElementById('authoredQuestionsContainer');
+            const filter = document.getElementById('authoredCategoryFilter').value;
+            container.innerHTML = '';
+
+            const filtered = filter === 'all' 
+                ? authoredQuestions 
+                : authoredQuestions.filter(q => q.category === filter);
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<p class="text-center" style="color: var(--text-light);">سوالی در این دسته‌بندی یافت نشد.</p>';
+                return;
+            }
+
+            filtered.forEach(q => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                
+                const optionsHtml = q.options.map((opt, index) => {
+                    return `<div class="option-item" onclick="handleAnswer(this, ${index}, ${q.answer}, '${q.explanation.replace(/'/g, "\\'")}')">
+                        <span style="font-weight: bold; color: var(--primary);">${index + 1}.</span> ${opt}
+                    </div>`;
+                }).join('');
+
+                card.innerHTML = `
+                    <div class="question-header">
+                        <div class="badges">
+                            <span class="badge badge-category">${q.category}</span>
+                            <span class="badge badge-difficulty ${q.difficulty}">${q.difficulty}</span>
+                        </div>
+                        <span style="color: var(--text-light); font-size: 0.9rem;">#${q.id}</span>
+                    </div>
+                    <div class="question-text">${q.text}</div>
+                    <div class="options-list">
+                        ${optionsHtml}
+                    </div>
+                    <div class="explanation"></div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Handle Option Click in Non-Exam Sections
+        function handleAnswer(element, selectedIndex, correctIndex, explanationText) {
+            const parent = element.parentElement;
+            const explanationDiv = parent.nextElementSibling; // The explanation div
+            
+            // Check if already answered
+            if (parent.querySelector('.correct')) return;
+
+            // Disable all options in this group
+            Array.from(parent.children).forEach((opt, idx) => {
+                opt.classList.add('disabled');
+                if (idx === correctIndex) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            // If user clicked wrong, highlight it
+            if (selectedIndex !== correctIndex) {
+                element.classList.add('wrong');
+            }
+
+            // Show explanation
+            explanationDiv.innerHTML = `<strong><i class="fa-solid fa-lightbulb"></i> پاسخ تشریحی:</strong><br>${explanationText}`;
+            explanationDiv.classList.add('show');
+        }
+
+        // --- Render Mind Map ---
+        function renderMindMap() {
+            const container = document.getElementById('mindmapContainer');
+            container.innerHTML = '';
+
+            summaryData.forEach((section) => {
+                const acc = document.createElement('div');
+                acc.className = 'accordion';
+                
+                const header = document.createElement('div');
+                header.className = 'accordion-header';
+                header.innerHTML = `
+                    <span>${section.title}</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                `;
+                header.onclick = () => acc.classList.toggle('active');
+
+                const content = document.createElement('div');
+                content.className = 'accordion-content';
+
+                section.nodes.forEach(node => {
+                    const nodeDiv = document.createElement('div');
+                    nodeDiv.className = 'mindmap-node';
+                    nodeDiv.innerHTML = `<h4>${node.title}</h4><p>${node.text}</p>`;
+                    content.appendChild(nodeDiv);
+                });
+
+                section.warnings.forEach(warning => {
+                    const warnDiv = document.createElement('div');
+                    warnDiv.className = 'warning-box';
+                    warnDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i><div>${warning}</div>`;
+                    content.appendChild(warnDiv);
+                });
+
+                acc.appendChild(header);
+                acc.appendChild(content);
+                container.appendChild(acc);
+            });
+        }
+
+        // --- Exam Logic ---
+        let examQuestions = [];
+        let currentQIndex = 0;
+        let examScore = 0;
+        let timerInterval;
+        let timeElapsed = 0;
+
+        function startExam() {
+            const count = parseInt(document.getElementById('examCount').value);
+            const source = document.getElementById('examSource').value;
+            const difficulty = document.getElementById('examDifficulty').value;
+            const topic = document.getElementById('examTopic').value;
+
+            // Filter Data
+            let pool = [];
+            if (source === 'sample') pool = [...sampleQuestions];
+            else if (source === 'authored') pool = [...authoredQuestions];
+            else pool = [...sampleQuestions, ...authoredQuestions];
+
+            if (difficulty !== 'all') {
+                pool = pool.filter(q => q.difficulty === difficulty);
+            }
+            if (topic !== 'all') {
+                pool = pool.filter(q => q.category === topic);
+            }
+
+            if (pool.length === 0) {
+                alert('با این تنظیمات سوالی یافت نشد. لطفاً فیلترها را تغییر دهید.');
+                return;
+            }
+
+            // Shuffle and slice
+            pool = pool.sort(() => 0.5 - Math.random());
+            examQuestions = pool.slice(0, Math.min(count, pool.length));
+
+            // Setup UI
+            document.getElementById('examSetup').classList.add('hidden');
+            document.getElementById('examResults').classList.add('hidden');
+            document.getElementById('examArea').classList.remove('hidden');
+            
+            currentQIndex = 0;
+            examScore = 0;
+            timeElapsed = 0;
+            
+            document.getElementById('totalQNum').textContent = examQuestions.length;
+            startTimer();
+            renderExamQuestion();
+        }
+
+        function renderExamQuestion() {
+            if (currentQIndex >= examQuestions.length) {
+                endExam();
+                return;
+            }
+
+            const q = examQuestions[currentQIndex];
+            document.getElementById('currentQNum').textContent = currentQIndex + 1;
+            document.getElementById('examQuestionText').textContent = q.text;
+            
+            const optionsContainer = document.getElementById('examOptions');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('div');
+                btn.className = 'option-item';
+                btn.innerHTML = `<span style="font-weight: bold; color: var(--primary);">${index + 1}.</span> ${opt}`;
+                btn.onclick = () => handleExamAnswer(btn, index, q.answer);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Progress
+            const progress = (currentQIndex / examQuestions.length) * 100;
+            document.getElementById('examProgressFill').style.width = `${progress}%`;
+
+            // Hide next button until answer
+            document.getElementById('examNextBtn').classList.add('hidden');
+        }
+
+        function handleExamAnswer(btn, selectedIndex, correctIndex) {
+            const options = document.getElementById('examOptions').children;
+            
+            // Disable all
+            for (let opt of options) {
+                opt.classList.add('disabled');
+            }
+
+            if (selectedIndex === correctIndex) {
+                btn.classList.add('correct');
+                examScore++;
+            } else {
+                btn.classList.add('wrong');
+                options[correctIndex].classList.add('correct');
+            }
+
+            // Show next button
+            const nextBtn = document.getElementById('examNextBtn');
+            nextBtn.classList.remove('hidden');
+            
+            // Change button text if last question
+            if (currentQIndex === examQuestions.length - 1) {
+                nextBtn.innerHTML = 'مشاهده نتیجه <i class="fa-solid fa-flag-checkered"></i>';
+            } else {
+                nextBtn.innerHTML = 'سوال بعدی <i class="fa-solid fa-arrow-left"></i>';
+            }
+        }
+
+        function nextExamQuestion() {
+            currentQIndex++;
+            renderExamQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            const timerEl = document.getElementById('examTimer');
+            timerEl.textContent = '00:00';
+            timerInterval = setInterval(() => {
+                timeElapsed++;
+                const m = Math.floor(timeElapsed / 60).toString().padStart(2, '0');
+                const s = (timeElapsed % 60).toString().padStart(2, '0');
+                timerEl.textContent = `${m}:${s}`;
+            }, 1000);
+        }
+
+        function endExam() {
+            clearInterval(timerInterval);
+            document.getElementById('examArea').classList.add('hidden');
+            document.getElementById('examResults').classList.remove('hidden');
+
+            const percentage = Math.round((examScore / examQuestions.length) * 100);
+            document.getElementById('scoreText').textContent = `${percentage}%`;
+            
+            const circle = document.getElementById('scoreCircle');
+            // Create conic gradient
+            circle.style.background = `conic-gradient(var(--success) ${percentage}%, var(--border) ${percentage}%)`;
+
+            let msg = "";
+            if (percentage >= 80) msg = "عالی! شما آماده امتحان هستید.";
+            else if (percentage >= 50) msg = "خوب است، اما نیاز به مرور بیشتر دارید.";
+            else msg = "نیاز به مطالعه بیشتر دارید. ناامید نشوید!";
+
+            document.getElementById('scoreMessage').textContent = msg;
+        }
+
+        function resetExam() {
+            document.getElementById('examResults').classList.add('hidden');
+            document.getElementById('examSetup').classList.remove('hidden');
+            document.getElementById('examProgressFill').style.width = '0%';
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Populate Category Filters
+            const categories = getUniqueCategories();
+            
+            // Sample filter
+            const sampleFilter = document.getElementById('sampleCategoryFilter');
+            // Authored filter
+            const authoredFilter = document.getElementById('authoredCategoryFilter');
+            // Exam Topic filter
+            const examTopicFilter = document.getElementById('examTopic');
+
+            categories.forEach(cat => {
+                const opt1 = new Option(cat, cat);
+                const opt2 = new Option(cat, cat);
+                const opt3 = new Option(cat, cat);
+                sampleFilter.add(opt1);
+                authoredFilter.add(opt2);
+                examTopicFilter.add(opt3);
+            });
+
+            // 2. Initial Renders
+            renderSampleQuestions();
+            renderAuthoredQuestions();
+            renderMindMap();
         });
+
     </script>
 </body>
 </html>
